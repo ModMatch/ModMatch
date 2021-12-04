@@ -1,25 +1,17 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import Header from './components/Header';
 import Home from './components/Home';
 
-class App extends Component {
+function App() {
 
-  constructor(props) {
-    super(props);
+  const [user, setUser] = useState("Wumh");
 
-    this.state = {
-      user: "WuMH"
-    }
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <Header username={this.state.user}/>
-        <Home user={this.state.user}/>
-      </div>
-    );
-  }
+  return (
+    <div className="App">
+      <Header username={user}/>
+      <Home user={user}/>
+    </div>
+  );
   
 }
 

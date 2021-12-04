@@ -1,19 +1,13 @@
-import React, {Component} from 'react';
+import React from 'react';
 import '../styles/Nav.css'
 
-class Nav extends Component {
+function Nav(props) {
 
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div className="Nav">
-        <a href="#">Home</a>
-      </div>
-    );
-  }
+  return (
+    <div className="Nav">
+      <a href="#">Home</a>
+    </div>
+  );
   
 }
 

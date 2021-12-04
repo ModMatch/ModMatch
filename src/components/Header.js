@@ -1,21 +1,15 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Nav from './Nav'
 import '../styles/Header.css'
 
-class Header extends Component {
+function Header(props) {
 
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div className="Header">
-        <Nav/>
-        <div>Hello, {this.props.username}</div>
-      </div>
-    );
-  }
+  return (
+    <div className="Header">
+      <Nav/>
+      <div>Hello, {props.username}</div>
+    </div>
+  );
   
 }
 

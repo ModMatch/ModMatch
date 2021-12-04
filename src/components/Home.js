@@ -1,93 +1,59 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import Form from './Form';
 import Post from './Post';
 import uniqid from "uniqid";
 
 
-class Home extends Component {
+function Home(props) {
 
-  constructor(props) {
-    super(props);
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
+  const [id, setId] = useState(uniqid());
+  const [showForm, setShowForm] = useState(false);
+  const [posts, setPosts] = useState([]);
 
-    this.state = {
-      curr: {
-        title: "",
-        desc: "",
-        user: this.props.user,
-        id: uniqid()
-      },
-      showForm: false,
-      posts: [],
-    }
+  const onTitleChange = (e) => {
+    setTitle(e.target.value);
   }
 
-  
-
-  onTitleChange = (e) => {
-    this.setState({
-      curr: {
-        title: e.target.value,
-        desc: this.state.curr.desc,
-        user: this.props.user,
-        id: this.state.curr.id
-      }
-    });
+  const onDescChange = (e) => {
+    setDesc(e.target.value);
   }
 
-  onDescChange = (e) => {
-    this.setState({
-      curr: {
-        title: this.state.curr.title,
-        desc: e.target.value,
-        user: this.props.user,
-        id: this.state.curr.id
-      }
-    });
-  }
-
-  onSubmit = (e) => {
+  const onSubmit = (e) => {
     //TODO: DB implementation, stored as state first, gone on refresh
-    if (this.state.curr.title === "" || this.state.curr.desc === "") {
+    if (title === "" || desc === "") {
       alert("Title and description cannot be empty");
     } else {
-      this.setState({
-        curr: {
-          title: "",
-          desc: "",
-          user: this.props.user,
-          id: uniqid()
-        },
-        posts: this.state.posts.concat(this.state.curr)
-      });
+      setTitle("");
+      setDesc("");
+      setId(uniqid());
+      const user = props.user;
+      setPosts(posts.concat({title, desc, id, user}));
+      setShowForm(false);
       e.target.parentElement.reset();
-      this.setState({showForm: false});
     }
   }
 
-  onAddButClick = () => {
-    this.setState({showForm: true});
+  const onAddButClick = () => {
+    setShowForm(true);
   }
 
-  onDelButClick = (e) => {
-    this.setState({
-      posts: this.state.posts.filter(x => x.id != e.target.parentElement.id)
-    })
+  const onDelButClick = (e) => {
+    setPosts(posts.filter(x => x.id !== e.target.parentElement.id));
   }
 
+  const addBut = (<button onClick={onAddButClick}>Add Post</button>);
+  const form = (<Form onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange}/>);
 
-  render() {
-    const addBut = (<button onClick={this.onAddButClick}>Add Post</button>);
-    const form = (<Form onSubmit={this.onSubmit} onDescChange={this.onDescChange} onTitleChange={this.onTitleChange}/>);
-
-    return (
-      <div>
-        {this.state.showForm ? form : addBut}
-        {this.state.posts.map(x => { return ( 
-          <Post key={x.id} user={x.user} title={x.title} desc={x.desc} id={x.id} currUser={this.props.user} onDelButClick={this.onDelButClick}/>
-        )})}
-      </div>
-    );
-  }
+  return (
+    <div>
+      {showForm ? form : addBut}
+      {posts.map(x => { return ( 
+        <Post key={x.id} user={x.user} title={x.title} desc={x.desc} id={x.id} currUser={props.user} onDelButClick={onDelButClick}/>
+      )})}
+    </div>
+  );
   
 }
 
