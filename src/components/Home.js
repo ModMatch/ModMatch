@@ -1,14 +1,13 @@
 import React, {useState} from 'react';
 import Form from './Form';
 import Post from './Post';
-import uniqid from "uniqid";
 
 
 function Home(props) {
 
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
-  const [id, setId] = useState(uniqid());
+  const [id, setId] = useState(1);
   const [showForm, setShowForm] = useState(false);
   const [posts, setPosts] = useState([]);
 
@@ -27,7 +26,7 @@ function Home(props) {
     } else {
       setTitle("");
       setDesc("");
-      setId(uniqid());
+      setId(1);
       const user = props.user;
       setPosts(posts.concat({title, desc, id, user}));
       setShowForm(false);

@@ -5,10 +5,10 @@ import '../styles/Header.css'
 function Header(props) {
 
   return (
-    <div className="Header">
+    <nav className="Header">
       <Nav/>
       <div>Hello, {props.username}</div>
-    </div>
+    </nav>
   );
   
 }
