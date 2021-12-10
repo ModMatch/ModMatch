@@ -7,7 +7,7 @@ function Header(props) {
   return (
     <nav className="Header">
       <Nav/>
-      <div>Hello, {props.username}</div>
+      <div>Hello, {props.user}</div>
     </nav>
   );
   

@@ -1,13 +1,21 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Main from "./Main";
 import App from "./App";
+import useAuth from "./hooks/useAuth";
 
 function RouteSwitch() {
+
+  function PrivateOutlet() {
+    const auth = useAuth();
+    return auth ? <Outlet /> : <Main />;
+  }
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/home" element={<App />} />
+        <Route path="/" element={<PrivateOutlet />}>
+          <Route path="/home" element={<App />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

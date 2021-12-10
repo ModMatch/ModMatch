@@ -1,24 +1,35 @@
 import React, {useState, useEffect} from 'react';
 import Header from './components/Header';
 import Home from './components/Home';
-require('dotenv').config();
+import useAuth from './hooks/useAuth';
+import Api from './api';
 
 function App() {
 
-  const [user, setUser] = useState("Wumh");
-  const [apiRes, setApiRes] = useState("");
+  const[user, setUser] = useState("");
 
-  useEffect(() => {
-    fetch(process.env.REACT_APP_SERVER_BASE + "/testApi ")
-    .then(res=>res.json())
-    .then(res => setApiRes(res));
-  }, [])
+  useEffect(()=> {
+    async function getAuth() {
+      try {
+        const auth = await Api.get('/auth', {
+          headers: {
+            Authorization: localStorage.getItem("Authorization")
+          }
+        })  
+        console.log(auth.data)
+         setUser(auth.data.user.given_name);
+      } catch(err) {
+      }
+    };
+
+    getAuth();
+
+  },[]);
 
   return (
     <div className="App">
-      <Header username={user}/>
-      <Home user={user}/>
-      <p>{apiRes.text}</p>
+      <Header user={user}/>
+      <Home />
     </div>
   );
   
