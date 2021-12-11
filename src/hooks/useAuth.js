@@ -3,7 +3,8 @@ import Api from '../api';
 
 function useAuth() {
   const[auth, setAuth] = useState(false);
-  //const[user, setUser] = useState({});
+  const[name, setName] = useState("");
+  const[id, setId] = useState("");
 
   useEffect(()=> {
     async function getAuth() {
@@ -15,20 +16,18 @@ function useAuth() {
         })
         if (auth.data.auth) {
           setAuth(true);
-          //setUser(auth.data.user);
+          setName(auth.data.name);
+          setId(auth.data.id);
         }
       } catch(err) {
-        if (err.response.status == 401) {
           setAuth(false);
-        }
       }
     };
 
     getAuth();
 
   },[]);
-
-  return auth;
+  return {auth, name, id};
 }
 
 export default useAuth;

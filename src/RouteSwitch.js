@@ -6,7 +6,7 @@ import useAuth from "./hooks/useAuth";
 function RouteSwitch() {
 
   function PrivateOutlet() {
-    const auth = useAuth();
+    let auth = useAuth().auth;
     return auth ? <Outlet /> : <Main />;
   }
 

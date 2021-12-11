@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import  { Navigate } from 'react-router-dom'
+import  { Navigate, useNavigate } from 'react-router-dom'
 import SignupForm from './components/Signup/SignupForm';
 import LoginForm from './components/Login/LoginForm';
 import useAuth from './hooks/useAuth'
@@ -7,7 +7,8 @@ import Api from './api';
 
 function Main() {
 
-  let isAuth = useAuth();
+  let isAuth = useAuth().auth;
+  let navigate = useNavigate();
   
   const[email, setEmail] = useState("");
   const[password, setPassword] = useState("");
@@ -28,7 +29,7 @@ function Main() {
       const result = await Api.post('/login', {email, password});
       localStorage.setItem('Authorization', `bearer ${result.data.token}`)
       setErrors([]);
-      window.location.reload(false);
+      navigate(0);
     } catch(err) {
       if (err.response.status == 401) {
         e.target.reset();

@@ -42,7 +42,6 @@ function SignupForm(props) {
     }
 
     const result = await Api.post('/signup', {email, password, surnameOrder, surname, givenName});
-    console.log(result.data);
   }
 
 

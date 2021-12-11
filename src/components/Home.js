@@ -1,15 +1,31 @@
-import React, {useState} from 'react';
-import  { Redirect } from 'react-router-dom'
+import React, {useState, useEffect} from 'react';
+import  { useNavigate } from 'react-router-dom'
 import Form from './Form';
 import Post from './Post';
 import Api from '../api';
 
 
 function Home(props) {
-
+  
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const [posts, setPosts] = useState([]);
+  const [trigger, setTrigger] = useState(true);
+
+  useEffect(()=> {
+    async function getPosts() {
+      const allPosts = await Api.get('/posts', {
+        headers: {
+          Authorization: localStorage.getItem("Authorization")
+        }
+      })
+      setPosts(allPosts.data.posts);
+    }
+
+    getPosts();
+
+  },[trigger]);
 
   const onTitleChange = (e) => {
     setTitle(e.target.value);
@@ -19,43 +35,52 @@ function Home(props) {
     setDesc(e.target.value);
   }
 
- /*const onSubmit = (e) => {
-    //TODO: DB implementation, stored as state first, gone on refresh
+ const onSubmit = async (e) => {
+    e.preventDefault();
     if (title === "" || desc === "") {
       alert("Title and description cannot be empty");
     } else {
-      setTitle("");
-      setDesc("");
-      setId(1);
-      const user = props.user;
-      setPosts(posts.concat({title, desc, id, user}));
+      await Api({
+        method: 'post',
+        url: '/posts/new',
+        headers: {
+          Authorization: localStorage.getItem("Authorization")
+        },
+        data: {title, user: props.id, description: desc, name: props.name}
+      })
+      e.target.reset();
       setShowForm(false);
-      e.target.parentElement.reset();
+      setTrigger(!trigger);
     }
-  }*/
+  }
 
   const onAddButClick = () => {
     setShowForm(true);
   }
 
-  const onDelButClick = (e) => {
-    //setPosts(posts.filter(x => x.id !== e.target.parentElement.id));
+  const onDelButClick = async (e) => {
+    await Api.delete(`/posts/${e.target.parentNode.dataset.postid}`, {
+      headers: {
+        Authorization: localStorage.getItem("Authorization")
+      }
+    })
+    setTrigger(!trigger);
   }
 
-  //const addBut = (<button onClick={onAddButClick}>Add Post</button>);
-  //const form = (<Form onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange}/>);
+  const addBut = (<button onClick={onAddButClick}>Add Post</button>);
+  const form = (<Form onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange}/>);
+  const delBut = (<button onClick={onDelButClick}>Delete Post</button>)
 
-  /*return (
+  return (
     <div>
       {showForm ? form : addBut}
-      {posts.map(x => { return ( 
-        <Post key={x.id} user={x.user} title={x.title} desc={x.desc} id={x.id} currUser={props.user} onDelButClick={onDelButClick}/>
-      )})}
+      {posts.map(obj=>{
+        return (<div key={obj._id} data-postid={obj._id}>Title: {obj.title} desc: {obj.description} by: {obj.name}
+            {obj.user == props.id ? delBut : null}
+          </div>)
+      })}
     </div>
-  );*/
-
-  return (<div>loggedin</div>);
-  
+  ); 
 }
 
 export default Home;
