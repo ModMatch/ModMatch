@@ -3,13 +3,14 @@ import React from 'react';
 function Post(props) {
 
   return (
-    <div id={props.id}>
+    <div data-postid={props.id}>
       <span>
         Title: {props.title} 
         Desc: {props.desc} 
         user: {props.user}
+        date: {props.date}
+        tag: {props.tag}
       </span>
-      {props.currUser === props.user ? <button onClick={props.onDelButClick}>Delete</button> : null}
     </div>
   );
   

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Api from '../api';
 
 function useAuth() {
-  const[auth, setAuth] = useState(false);
+  const[auth, setAuth] = useState();
   const[name, setName] = useState("");
   const[id, setId] = useState("");
 

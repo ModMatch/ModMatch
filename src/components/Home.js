@@ -6,14 +6,17 @@ import Api from '../api';
 
 
 function Home(props) {
-  
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
+  const [tag, setTag] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [posts, setPosts] = useState([]);
   const [trigger, setTrigger] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(()=> {
+    setLoading(true);
     async function getPosts() {
       const allPosts = await Api.get('/posts', {
         headers: {
@@ -24,6 +27,7 @@ function Home(props) {
     }
 
     getPosts();
+    setLoading(false);
 
   },[trigger]);
 
@@ -35,10 +39,14 @@ function Home(props) {
     setDesc(e.target.value);
   }
 
+  const onTagChange = (e) => {
+    setTag(e.target.value);
+  }
+
  const onSubmit = async (e) => {
     e.preventDefault();
-    if (title === "" || desc === "") {
-      alert("Title and description cannot be empty");
+    if (title === "" || desc === "" || tag === "") {
+      alert("Title, description, and tag cannot be empty");
     } else {
       await Api({
         method: 'post',
@@ -46,7 +54,7 @@ function Home(props) {
         headers: {
           Authorization: localStorage.getItem("Authorization")
         },
-        data: {title, user: props.id, description: desc, name: props.name}
+        data: {title, user: props.id, description: desc, tag: tag.toUpperCase(), name: props.name}
       })
       e.target.reset();
       setShowForm(false);
@@ -58,25 +66,36 @@ function Home(props) {
     setShowForm(true);
   }
 
-  const onDelButClick = async (e) => {
-    await Api.delete(`/posts/${e.target.parentNode.dataset.postid}`, {
+  const onEditButClick = (e) => {
+    navigate(`/post/${e.target.parentNode.previousSibling.dataset.postid}`);
+  }
+
+  const onDelButClick = (e) => {
+    Api.delete(`/posts/${e.target.parentNode.previousSibling.dataset.postid}`, {
       headers: {
         Authorization: localStorage.getItem("Authorization")
       }
-    })
-    setTrigger(!trigger);
+    }).then(setTrigger(!trigger));
   }
 
   const addBut = (<button onClick={onAddButClick}>Add Post</button>);
-  const form = (<Form onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange}/>);
-  const delBut = (<button onClick={onDelButClick}>Delete Post</button>)
-
+  const form = (<Form onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange} onTagChange={onTagChange}/>);
+  const delBut = (<div>
+                    <button onClick={onDelButClick}>Delete Post</button>
+                    <button onClick={onEditButClick}>Edit Post</button>
+                  </div>);
+if(loading) {
+  return ("loading...");
+}
   return (
     <div>
       {showForm ? form : addBut}
       {posts.map(obj=>{
-        return (<div key={obj._id} data-postid={obj._id}>Title: {obj.title} desc: {obj.description} by: {obj.name}
-            {obj.user == props.id ? delBut : null}
+        return (
+          <div>
+            <Post key={obj._id} id={obj._id} title={obj.title} desc={obj.description}
+             user={obj.name} date={obj.formatted_date} tag={obj.tag} />
+             {obj.user == props.id ? delBut : null}
           </div>)
       })}
     </div>

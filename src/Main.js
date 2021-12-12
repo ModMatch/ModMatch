@@ -29,6 +29,7 @@ function Main() {
       const result = await Api.post('/login', {email, password});
       localStorage.setItem('Authorization', `bearer ${result.data.token}`)
       setErrors([]);
+      navigate('/home');
       navigate(0);
     } catch(err) {
       if (err.response.status == 401) {
@@ -57,6 +58,7 @@ function Main() {
       </div>
     );
   }
+
   return <Navigate to="/home" />
 }
 
