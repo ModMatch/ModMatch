@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import  { useNavigate } from 'react-router-dom'
-import Form from './Form';
+import PostForm from './PostForm';
 import Post from './Post';
 import Api from '../api';
 
@@ -66,24 +66,9 @@ function Home(props) {
     setShowForm(true);
   }
 
-  const onEditButClick = (e) => {
-    navigate(`/post/${e.target.parentNode.previousSibling.dataset.postid}`);
-  }
-
-  const onDelButClick = (e) => {
-    Api.delete(`/posts/${e.target.parentNode.previousSibling.dataset.postid}`, {
-      headers: {
-        Authorization: localStorage.getItem("Authorization")
-      }
-    }).then(setTrigger(!trigger));
-  }
-
   const addBut = (<button onClick={onAddButClick}>Add Post</button>);
-  const form = (<Form onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange} onTagChange={onTagChange}/>);
-  const delBut = (<div>
-                    <button onClick={onDelButClick}>Delete Post</button>
-                    <button onClick={onEditButClick}>Edit Post</button>
-                  </div>);
+  const form = (<PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange} onTagChange={onTagChange}/>);
+
 if(loading) {
   return ("loading...");
 }
@@ -94,8 +79,7 @@ if(loading) {
         return (
           <div>
             <Post key={obj._id} id={obj._id} title={obj.title} desc={obj.description}
-             user={obj.name} date={obj.formatted_date} tag={obj.tag} />
-             {obj.user == props.id ? delBut : null}
+             user={obj.name} date={obj.formatted_date} tag={obj.tag}/>
           </div>)
       })}
     </div>

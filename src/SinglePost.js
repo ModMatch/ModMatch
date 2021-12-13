@@ -2,7 +2,10 @@ import React, {useState, useEffect} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from './components/Header';
 import useAuth from './hooks/useAuth';
-import Form from './components/Form';
+import Post from './components/Post';
+import PostForm from './components/PostForm';
+import CommentForm from './components/CommentForm';
+import Comment from './components/Comment';
 import Api from './api';
 
 function SinglePost(props) {
@@ -13,9 +16,9 @@ function SinglePost(props) {
   const [tag, setTag] = useState("");
   const [loading, setLoading] = useState(true);
   const [post, setPost] = useState({});
+  const [edit, setEdit] = useState(false);
 
   let param = useParams();
-
   const navigate = useNavigate();
   useEffect(()=> {
     if (param) {
@@ -46,12 +49,61 @@ function SinglePost(props) {
     setTag(e.target.value);
   }
 
+  const onEditButClick = (e) => {
+    setEdit(true);
+  }
+
+  const onDelButClick = (e) => {
+    Api.delete(`/posts/${param.postid}`, {
+      headers: {
+        Authorization: localStorage.getItem("Authorization")
+      }
+    }).then(navigate('/home'))
+    .then(navigate(0));
+  }
+
+  const onCommentSaveButClick = (e) => {
+    Api({
+      method: 'put',
+      url: `/posts/${param.postid}/${e.target.parentNode.dataset.commentid}`,
+      headers: {
+        Authorization: localStorage.getItem("Authorization")
+      },
+      data: {description: e.target.elements["description"].value}
+    })
+  }
+
+  const onCommentDelButClick = (e) => {
+    Api.delete(`/posts/${param.postid}/${e.target.parentNode.parentNode.dataset.commentid}`, {
+      headers: {
+        Authorization: localStorage.getItem("Authorization")
+      }
+    }).then(navigate(0));
+  }
+
+  const onCommentSubmit = (e) => {
+    e.preventDefault();
+    let commentContent = e.target.elements["description"].value;
+    if (commentContent === "") {
+      alert("Comment cannot be empty");
+    }
+    Api({
+      method: 'post',
+      url: `/posts/${param.postid}`,
+      headers: {
+        Authorization: localStorage.getItem("Authorization")
+      },
+      data: {user: id, description: commentContent, name}
+    }).then(navigate(0))
+  }
+
  const onSubmit = async (e) => {
     e.preventDefault();
     if (title === "" || desc === "" || tag === "") {
       alert("Title, description, and tag cannot be empty");
     } else {
-      navigate('/home');
+      setEdit(false);
+      navigate(0); 
       await Api({
         method: 'put',
         url: `/posts/${param.postid}`,
@@ -59,9 +111,14 @@ function SinglePost(props) {
           Authorization: localStorage.getItem("Authorization")
         },
         data: {title, description: desc, tag: tag.toUpperCase()}
-      });  
+      });
     }
   }
+
+  const authorAdminGroup = (<div>
+    <button onClick={onDelButClick}>Delete Post</button>
+    <button onClick={onEditButClick}>Edit Post</button>
+  </div>);
 
   if (loading) {
     return <div>Loading...</div>
@@ -70,7 +127,18 @@ function SinglePost(props) {
   return (
     <div className="single-post">
       <Header user={name} id={id}/>
-      <Form onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange} onTagChange={onTagChange} post={post}/>
+      {edit ?
+      <PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange}
+       onTagChange={onTagChange} post={post}/>
+      : <div><Post title={title} desc={desc}
+      user={post.name} date={post.formatted_date} tag={tag}/>
+      {post.user == id ? authorAdminGroup : null}
+      </div>}
+      <CommentForm onSubmit={onCommentSubmit}/>
+      {post.comments.map(c=> {
+        return(<Comment id={c._id} user={id} name={c.name} desc={c.description} date={c.formatted_date} author={c.user}
+        onCommentDelButClick={onCommentDelButClick} onCommentSaveButClick={onCommentSaveButClick}/>)
+      })}
     </div>
   );
   

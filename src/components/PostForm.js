@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Form(props) {
+function PostForm(props) {
   
   return (
     <form className="Form" onSubmit={props.onSubmit}>
@@ -13,4 +13,4 @@ function Form(props) {
   
 }
 
-export default Form;
+export default PostForm;
