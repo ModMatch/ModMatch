@@ -28,7 +28,6 @@ function SinglePost(props) {
           Authorization: localStorage.getItem("Authorization")
         }
       }).then((apiPost) => {
-        console.log(apiPost);
         setPost(apiPost.data.post);
         setTitle(apiPost.data.post.title);
         setDesc(apiPost.data.post.description);
@@ -116,6 +115,26 @@ function SinglePost(props) {
     }
   }
 
+  const onJoinButClick = async (e) => {
+    if (!post.group.users.includes(id)) {
+      post.group.users.push(id);
+    } else {
+      post.group.users = post.group.users.filter(e => e !== id);
+    }
+      
+    const res = await Api({
+      method: 'put',
+      url: `/groups/${post.group._id}`,
+      headers: {
+        Authorization: localStorage.getItem("Authorization")
+      },
+      data: {users : post.group.users}
+    });
+    if (res.data.isFull) {
+      //TODO call notification API and notify users in res.data.users
+    }
+  }
+
   const authorAdminGroup = (<div>
     <button onClick={onDelButClick}>Delete Post</button>
     <button onClick={onEditButClick}>Edit Post</button>
@@ -127,13 +146,18 @@ function SinglePost(props) {
   return (
     <div className="single-post">
       <Header user={name} id={id}/>
+      
       {edit ?
-      <PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange}
-       onTagChange={onTagChange} post={post}/>
-      : <div><Post title={title} desc={desc}
-      user={post.author.name} date={post.formatted_date} tag={tag} authorurl={post.author.url} posturl={post.url} />
-      {post.user == id ? authorAdminGroup : null}
-      </div>}
+        <PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange}
+        onTagChange={onTagChange} post={post}/>
+      : <div>
+          <Post title={title} desc={desc} user={post.author.name} date={post.formatted_date}
+          tag={tag} authorurl={post.author.url} posturl={post.url} />
+          {post.user == id ? authorAdminGroup : null}
+        </div>}
+
+      { post.user !== id ? <button onClick={onJoinButClick}>{post.group.users.includes(id) ? "Unjoin" : "Join"}</button> : null}
+      <span>{`${parseInt(post.group.users.length) - 1}/${parseInt(post.group.size) - 1}`}</span>
       <CommentForm onSubmit={onCommentSubmit}/>
       {post.comments.map(c=> {
         return(<Comment id={c._id} curruserid={id} desc={c.description} date={c.formatted_date} commenter={c.commenter.name}

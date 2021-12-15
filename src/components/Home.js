@@ -10,6 +10,8 @@ function Home(props) {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [tag, setTag] = useState("");
+  const [vet, setVet] = useState(false);
+  const [size, setSize] = useState(0);
   const [showForm, setShowForm] = useState(false);
   const [posts, setPosts] = useState([]);
   const [trigger, setTrigger] = useState(true);
@@ -44,6 +46,14 @@ function Home(props) {
     setTag(e.target.value);
   }
 
+  const onVetChange = (e) => {
+    setVet(!vet);
+  }
+
+  const onSizeChange = (e) => {
+    setSize(e.target.value);
+  }
+
  const onSubmit = async (e) => {
     e.preventDefault();
     if (title === "" || desc === "" || tag === "") {
@@ -55,7 +65,7 @@ function Home(props) {
         headers: {
           Authorization: localStorage.getItem("Authorization")
         },
-        data: {title, user: props.id, description: desc, tag: tag.toUpperCase(), name: props.name}
+        data: {title, user: props.id, description: desc, tag: tag.toUpperCase(), name: props.name, vet, size}
       })
       e.target.reset();
       setShowForm(false);
@@ -68,7 +78,8 @@ function Home(props) {
   }
 
   const addBut = (<button onClick={onAddButClick}>Add Post</button>);
-  const form = (<PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange} onTagChange={onTagChange}/>);
+  const form = (<PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange} 
+    onTagChange={onTagChange} onVetChange={onVetChange} onSizeChange={onSizeChange}/>);
 
   if(loading) {
   return ("loading...");
