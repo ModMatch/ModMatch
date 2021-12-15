@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import  { useNavigate } from 'react-router-dom'
 import PostForm from './PostForm';
 import Post from './Post';
-import Api from '../api';
+import Api from '../Api';
 
 
 function Home(props) {
@@ -24,6 +24,7 @@ function Home(props) {
         }
       })
       setPosts(allPosts.data.posts);
+
     }
 
     getPosts();
@@ -69,7 +70,7 @@ function Home(props) {
   const addBut = (<button onClick={onAddButClick}>Add Post</button>);
   const form = (<PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange} onTagChange={onTagChange}/>);
 
-if(loading) {
+  if(loading) {
   return ("loading...");
 }
   return (
@@ -78,8 +79,8 @@ if(loading) {
       {posts.map(obj=>{
         return (
           <div>
-            <Post key={obj._id} id={obj._id} title={obj.title} desc={obj.description}
-             user={obj.name} date={obj.formatted_date} tag={obj.tag}/>
+            <Post key={obj._id} id={obj._id} title={obj.title} desc={obj.description} posturl={obj.url}
+             user={obj.author.name} date={obj.formatted_date} tag={obj.tag} authorurl={obj.author.url}/>
           </div>)
       })}
     </div>

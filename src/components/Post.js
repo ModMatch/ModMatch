@@ -1,20 +1,20 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Post(props) {
-
   return (
     <div data-postid={props.id}>
       <table>
         <tr>
-          {props.id ? <a href={`/post/${props.id}`}> 
+          <Link to={props.posturl}> 
           Title: {props.title}
-          </a>: (<div>Title: {props.title}</div>)}
+          </Link>
         </tr>
         <tr>
           Desc: {props.desc} 
         </tr>
         <tr>
-          user: {props.user}
+          <Link to={props.authorurl}>user: {props.user}</Link>
           date: {props.date}
           tag: {props.tag}
         </tr>

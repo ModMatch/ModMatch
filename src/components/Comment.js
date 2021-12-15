@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import CommentForm from './CommentForm';
 
 function Comment(props) {
@@ -18,7 +19,9 @@ function Comment(props) {
     <div data-commentid={props.id}>
       <table>
         <tr>
-          User: {props.name}
+          <Link to={props.commenterurl}>
+          User: {props.commenter}
+          </Link>
         </tr>
         <tr>
           {props.desc} 
@@ -27,7 +30,7 @@ function Comment(props) {
           date: {props.date}
         </tr>
       </table>
-      {props.author == props.user ? (<div>
+      {props.commenterid == props.curruserid ? (<div>
       <button onClick={props.onCommentDelButClick}>Delete</button>
       <button onClick={onCommentEditButClick}>Edit</button>
       </div>) : null}

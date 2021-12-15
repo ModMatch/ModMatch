@@ -6,7 +6,7 @@ import Post from './components/Post';
 import PostForm from './components/PostForm';
 import CommentForm from './components/CommentForm';
 import Comment from './components/Comment';
-import Api from './api';
+import Api from './Api';
 
 function SinglePost(props) {
 
@@ -28,6 +28,7 @@ function SinglePost(props) {
           Authorization: localStorage.getItem("Authorization")
         }
       }).then((apiPost) => {
+        console.log(apiPost);
         setPost(apiPost.data.post);
         setTitle(apiPost.data.post.title);
         setDesc(apiPost.data.post.description);
@@ -123,7 +124,6 @@ function SinglePost(props) {
   if (loading) {
     return <div>Loading...</div>
   }
-
   return (
     <div className="single-post">
       <Header user={name} id={id}/>
@@ -131,13 +131,13 @@ function SinglePost(props) {
       <PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange}
        onTagChange={onTagChange} post={post}/>
       : <div><Post title={title} desc={desc}
-      user={post.name} date={post.formatted_date} tag={tag}/>
+      user={post.author.name} date={post.formatted_date} tag={tag} authorurl={post.author.url} posturl={post.url} />
       {post.user == id ? authorAdminGroup : null}
       </div>}
       <CommentForm onSubmit={onCommentSubmit}/>
       {post.comments.map(c=> {
-        return(<Comment id={c._id} user={id} name={c.name} desc={c.description} date={c.formatted_date} author={c.user}
-        onCommentDelButClick={onCommentDelButClick} onCommentSaveButClick={onCommentSaveButClick}/>)
+        return(<Comment id={c._id} curruserid={id} desc={c.description} date={c.formatted_date} commenter={c.commenter.name}
+        commenterurl={c.commenter.url} commenterid={c.commenter.id} onCommentDelButClick={onCommentDelButClick} onCommentSaveButClick={onCommentSaveButClick}/>)
       })}
     </div>
   );

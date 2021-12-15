@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import  { Navigate, useNavigate } from 'react-router-dom'
-import SignupForm from './components/Signup/SignupForm';
+import  { Link, Navigate, useNavigate } from 'react-router-dom'
 import LoginForm from './components/Login/LoginForm';
 import useAuth from './hooks/useAuth'
-import Api from './api';
+import Api from './Api';
 
 function Main() {
 
@@ -52,8 +51,9 @@ function Main() {
           <LoginForm onEmailChange={onEmailChange} onPasswordChange={onPasswordChange} onLoginSubmit={onLoginSubmit}/>
         </div>
         <div>
+          <Link to='/signup'>
           signup here
-          <SignupForm setErrors={setErrors}/>
+          </Link>
         </div>
       </div>
     );

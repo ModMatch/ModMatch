@@ -6,7 +6,7 @@ function Header(props) {
 
   return (
     <nav className="Header">
-      <Nav/>
+      <Nav profileUrl={`/users/${props.id}`}/>
       <div>Hello, {props.user}</div>
     </nav>
   );
