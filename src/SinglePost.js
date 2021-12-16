@@ -114,14 +114,12 @@ function SinglePost(props) {
       });
     }
   }
-
   const onJoinButClick = async (e) => {
     if (!post.group.users.includes(id)) {
       post.group.users.push(id);
     } else {
       post.group.users = post.group.users.filter(e => e !== id);
-    }
-      
+    }  
     const res = await Api({
       method: 'put',
       url: `/groups/${post.group._id}`,
@@ -131,8 +129,10 @@ function SinglePost(props) {
       data: {users : post.group.users}
     });
     if (res.data.isFull) {
+      navigate('/home');
       //TODO call notification API and notify users in res.data.users
     }
+    navigate(0);
   }
 
   const authorAdminGroup = (<div>

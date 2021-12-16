@@ -17,6 +17,7 @@ function Nav(props) {
       <Link to="/home">Home</Link>
       <Link to="/" onClick={logout}>Logout</Link>
       <Link to={props.profileUrl}>Profile</Link>
+      <Link to={'/groups'}>Groups</Link>
     </div>
   );
   

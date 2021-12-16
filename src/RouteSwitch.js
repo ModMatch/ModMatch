@@ -3,6 +3,7 @@ import Main from "./Main";
 import App from "./App";
 import ProfilePage from "./ProfilePage";
 import SinglePost from "./SinglePost";
+import GroupPage from "./GroupPage";
 import useAuth from "./hooks/useAuth";
 import { useEffect } from "react";
 import Signup from "./Signup";
@@ -26,6 +27,7 @@ function RouteSwitch() {
           <Route path="/post/:postid" element={<SinglePost />} />
           <Route path="/home" element={<App />} />
           <Route path="/users/:userid" element={<ProfilePage />} />
+          <Route path="/groups" element={<GroupPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
