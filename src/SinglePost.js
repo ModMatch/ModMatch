@@ -17,6 +17,7 @@ function SinglePost(props) {
   const [loading, setLoading] = useState(true);
   const [post, setPost] = useState({});
   const [edit, setEdit] = useState(false);
+  let isIn = false;
 
   let param = useParams();
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ function SinglePost(props) {
           Authorization: localStorage.getItem("Authorization")
         }
       }).then((apiPost) => {
+        console.log(apiPost.data)
         setPost(apiPost.data.post);
         setTitle(apiPost.data.post.title);
         setDesc(apiPost.data.post.description);
@@ -129,10 +131,32 @@ function SinglePost(props) {
       data: {users : post.group.users}
     });
     if (res.data.isFull) {
-      navigate('/home');
+      navigate('/groups');
       //TODO call notification API and notify users in res.data.users
     }
     navigate(0);
+  }
+
+  const onApplyButClick = async (e) => {
+    let isDelete = true;
+    if (isIn) {
+      isDelete = false;
+    }
+
+  }
+
+  const SubmitBut = () => {
+    if (post.onModel === 'Group') {
+      return <button onClick={onJoinButClick}>{post.group.users.includes(id) ? "Unjoin" : "Join"}</button>
+    } else {
+      for (var i = 0; i < post.group.requests.length; i++) {
+        if (post.group.requests[i].user === id) {
+          isIn = true;
+          break;
+        }
+      }
+      return <button onClick={onApplyButClick}>{isIn ? "Unapply" : "Apply"}</button>
+    }
   }
 
   const authorAdminGroup = (<div>
@@ -143,6 +167,7 @@ function SinglePost(props) {
   if (loading) {
     return <div>Loading...</div>
   }
+  
   return (
     <div className="single-post">
       <Header user={name} id={id}/>
@@ -156,8 +181,9 @@ function SinglePost(props) {
           {post.user == id ? authorAdminGroup : null}
         </div>}
 
-      { post.user !== id ? <button onClick={onJoinButClick}>{post.group.users.includes(id) ? "Unjoin" : "Join"}</button> : null}
-      <span>{`${parseInt(post.group.users.length) - 1}/${parseInt(post.group.size) - 1}`}</span>
+      { post.user !== id ? SubmitBut() : null}
+      {post.onModel === 'Group'? <span>{`${parseInt(post.group.users.length) - 1}/${parseInt(post.group.size) - 1}`}</span>
+      : null}
       <CommentForm onSubmit={onCommentSubmit}/>
       {post.comments.map(c=> {
         return(<Comment id={c._id} curruserid={id} desc={c.description} date={c.formatted_date} commenter={c.commenter.name}

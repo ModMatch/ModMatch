@@ -12,6 +12,7 @@ function Home(props) {
   const [tag, setTag] = useState("");
   const [vet, setVet] = useState(false);
   const [size, setSize] = useState(0);
+  const [questionNum, setQuestionNum] = useState(1);
   const [showForm, setShowForm] = useState(false);
   const [posts, setPosts] = useState([]);
   const [trigger, setTrigger] = useState(true);
@@ -34,6 +35,13 @@ function Home(props) {
 
   },[trigger]);
 
+  const onAddQuestion = (e) => {
+    let q = document.createElement("input");
+    q.name = questionNum + 1;
+    e.target.parentNode.insertBefore(q, e.target);
+    setQuestionNum(questionNum + 1);
+  }
+
   const onTitleChange = (e) => {
     setTitle(e.target.value);
   }
@@ -48,6 +56,7 @@ function Home(props) {
 
   const onVetChange = (e) => {
     setVet(!vet);
+    setQuestionNum(1);
   }
 
   const onSizeChange = (e) => {
@@ -58,7 +67,7 @@ function Home(props) {
     e.preventDefault();
     if (title === "" || desc === "" || tag === "") {
       alert("Title, description, and tag cannot be empty");
-    } else {
+    } else if (!vet) {
       await Api({
         method: 'post',
         url: '/posts/new',
@@ -67,10 +76,26 @@ function Home(props) {
         },
         data: {title, user: props.id, description: desc, tag: tag.toUpperCase(), name: props.name, vet, size}
       })
-      e.target.reset();
-      setShowForm(false);
-      setTrigger(!trigger);
+    } else {
+      let q = e.target.querySelector('.questions');
+      let qarr = [];
+      for (var i = 0; i < questionNum; i++) {
+        if (q.childNodes[i].value !== "") {
+          qarr.push(q.childNodes[i].value);   
+        }  
+      }
+      await Api({
+        method: 'post',
+        url: '/posts/new',
+        headers: {
+          Authorization: localStorage.getItem("Authorization")
+        },
+        data: {title, user: props.id, description: desc, tag: tag.toUpperCase(), name: props.name, vet, questions: qarr}
+      })
     }
+    e.target.reset();
+    setShowForm(false);
+    setTrigger(!trigger);
   }
 
   const onAddButClick = () => {
@@ -79,7 +104,7 @@ function Home(props) {
 
   const addBut = (<button onClick={onAddButClick}>Add Post</button>);
   const form = (<PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange} 
-    onTagChange={onTagChange} onVetChange={onVetChange} onSizeChange={onSizeChange}/>);
+    onTagChange={onTagChange} onVetChange={onVetChange} onSizeChange={onSizeChange} vet={vet} addQ={onAddQuestion}/>);
 
   if(loading) {
   return ("loading...");
