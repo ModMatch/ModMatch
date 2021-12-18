@@ -7,12 +7,18 @@ function PostForm(props) {
     <label htmlFor="vetting">Vetting?</label>
     <input type="number" onChange={props.onSizeChange} min="1" required="true"/>
   </div>);
+
+  const vetQuestions = (<div className='questions'>
+    <input type="text" name="1"/>
+    <button onClick={props.addQ}>Add</button>
+  </div>)
   
   return (
     <form className="Form" onSubmit={props.onSubmit}>
       <input type="text" placeholder="Title" onChange={props.onTitleChange} defaultValue={props.post ? props.post.title : null }/>
       <input type="text" placeholder="Description" onChange={props.onDescChange} defaultValue={props.post ? props.post.description : null }/>
       {props.post ? null : uneditableOptions}
+      {props.vet ? vetQuestions : null}
       <input type="text" placeholder="Module code" onChange={props.onTagChange} defaultValue={props.post ? props.post.tag : null }/>
       <button type="submit">{props.post ? "Save": "Submit"}</button>
     </form>
