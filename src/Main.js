@@ -3,6 +3,7 @@ import  { Link, Navigate, useNavigate } from 'react-router-dom'
 import LoginForm from './components/Login/LoginForm';
 import useAuth from './hooks/useAuth'
 import Api from './Api';
+import mainCSS from './styles/main.module.css';
 
 function Main() {
 
@@ -41,20 +42,18 @@ function Main() {
 
   if (!isAuth) {
     return (
-      <div className="Main">
-        Welcome to ModMatch
+      <div className={mainCSS.main}>
+        <div className={mainCSS.welcome}>Welcome to ModMatch</div>
         {errors.map((e)=>{
           return <div>{e}</div>
         })}
         <div>
-          login here
-          <LoginForm onEmailChange={onEmailChange} onPasswordChange={onPasswordChange} onLoginSubmit={onLoginSubmit}/>
+          <div className={mainCSS.login}>Login:</div>
+          <div className={mainCSS.loginForm}>
+            <LoginForm onEmailChange={onEmailChange} onPasswordChange={onPasswordChange} onLoginSubmit={onLoginSubmit}/>
+          </div>
         </div>
-        <div>
-          <Link to='/signup'>
-          signup here
-          </Link>
-        </div>
+        
       </div>
     );
   }
