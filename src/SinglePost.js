@@ -17,10 +17,11 @@ function SinglePost(props) {
   const [loading, setLoading] = useState(true);
   const [post, setPost] = useState({});
   const [edit, setEdit] = useState(false);
-  let isIn = false;
+  const [isIn, setIsIn] = useState(false);
 
   let param = useParams();
   const navigate = useNavigate();
+
   useEffect(()=> {
     if (param) {
       setLoading(true);
@@ -29,15 +30,21 @@ function SinglePost(props) {
           Authorization: localStorage.getItem("Authorization")
         }
       }).then((apiPost) => {
-        console.log(apiPost.data)
-        setPost(apiPost.data.post);
-        setTitle(apiPost.data.post.title);
-        setDesc(apiPost.data.post.description);
-        setTag(apiPost.data.post.tag);
+        let postdata = apiPost.data.post;
+        setPost(postdata);
+        setTitle(postdata.title);
+        setDesc(postdata.description);
+        setTag(postdata.tag);
+        for (let i = 0; i < postdata.group.requests.length; i++) {
+          if (postdata.group.requests[i].user === id) {
+            setIsIn(true);
+            break;
+          }
+        }
         setLoading(false);
       }) 
     }
-  },[param]);
+  },[param, id]);
 
   const onTitleChange = (e) => {
     setTitle(e.target.value);
@@ -138,23 +145,26 @@ function SinglePost(props) {
   }
 
   const onApplyButClick = async (e) => {
-    let isDelete = true;
-    if (isIn) {
-      isDelete = false;
-    }
 
+    if (isIn) {
+      await Api({
+        method: 'put',
+        url: `/groups/${post.group._id}`,
+        headers: {
+          Authorization: localStorage.getItem("Authorization")
+        },  
+        data: {userid : id}
+      });
+      navigate(0);
+    } else {
+      navigate(`/post/${param.postid}/apply`)
+    }
   }
 
   const SubmitBut = () => {
     if (post.onModel === 'Group') {
       return <button onClick={onJoinButClick}>{post.group.users.includes(id) ? "Unjoin" : "Join"}</button>
     } else {
-      for (var i = 0; i < post.group.requests.length; i++) {
-        if (post.group.requests[i].user === id) {
-          isIn = true;
-          break;
-        }
-      }
       return <button onClick={onApplyButClick}>{isIn ? "Unapply" : "Apply"}</button>
     }
   }
