@@ -18,6 +18,7 @@ function SinglePost(props) {
   const [post, setPost] = useState({});
   const [edit, setEdit] = useState(false);
   const [isIn, setIsIn] = useState(false);
+  const [isVet, setIsVet] = useState(false);
 
   let param = useParams();
   const navigate = useNavigate();
@@ -35,10 +36,13 @@ function SinglePost(props) {
         setTitle(postdata.title);
         setDesc(postdata.description);
         setTag(postdata.tag);
-        for (let i = 0; i < postdata.group.requests.length; i++) {
-          if (postdata.group.requests[i].user === id) {
-            setIsIn(true);
-            break;
+        if (postdata.group.requests) {
+          setIsVet(true);
+          for (let i = 0; i < postdata.group.requests.length; i++) {
+            if (postdata.group.requests[i].user === id) {
+              setIsIn(true);
+              break;
+            }
           }
         }
         setLoading(false);
@@ -112,6 +116,7 @@ function SinglePost(props) {
       alert("Title, description, and tag cannot be empty");
     } else {
       setEdit(false);
+      setIsVet(false);
       navigate(0); 
       await Api({
         method: 'put',
@@ -162,16 +167,21 @@ function SinglePost(props) {
   }
 
   const SubmitBut = () => {
-    if (post.onModel === 'Group') {
+    if (!isVet) {
       return <button onClick={onJoinButClick}>{post.group.users.includes(id) ? "Unjoin" : "Join"}</button>
     } else {
       return <button onClick={onApplyButClick}>{isIn ? "Unapply" : "Apply"}</button>
     }
   }
 
+  const onViewButClick = () => {
+    navigate(`/post/${param.postid}/view`);
+  }
+
   const authorAdminGroup = (<div>
     <button onClick={onDelButClick}>Delete Post</button>
     <button onClick={onEditButClick}>Edit Post</button>
+    {isVet ? <button onClick={onViewButClick}>View Application</button> : null}
   </div>);
 
   if (loading) {

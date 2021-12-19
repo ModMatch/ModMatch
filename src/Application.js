@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import useAuth from './hooks/useAuth';
-import Group from './components/Group/Group';
 import Header from './components/Header';
 import Api from './Api';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -20,7 +19,6 @@ function Application(props) {
         Authorization: localStorage.getItem("Authorization")
       }
     }).then((res) => {
-      console.log(res)
       setPost(res.data.post);
       setLoading(false);
     });
