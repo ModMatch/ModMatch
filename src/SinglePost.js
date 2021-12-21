@@ -152,6 +152,7 @@ function SinglePost(props) {
   const onApplyButClick = async (e) => {
 
     if (isIn) {
+      navigate(0);
       await Api({
         method: 'put',
         url: `/groups/${post.group._id}`,
@@ -160,7 +161,6 @@ function SinglePost(props) {
         },  
         data: {userid : id}
       });
-      navigate(0);
     } else {
       navigate(`/post/${param.postid}/apply`)
     }
