@@ -15,6 +15,7 @@ function SinglePost(props) {
   const [desc, setDesc] = useState("");
   const [tag, setTag] = useState("");
   const [loading, setLoading] = useState(true);
+  const [hack, setHack] = useState(false);
   const [post, setPost] = useState({});
   const [edit, setEdit] = useState(false);
   const [isIn, setIsIn] = useState(false);
@@ -36,6 +37,9 @@ function SinglePost(props) {
         setTitle(postdata.title);
         setDesc(postdata.description);
         setTag(postdata.tag);
+        if (postdata.tag === "HACKATHON") {
+          setHack(true);
+        }
         if (postdata.group.requests) {
           setIsVet(true);
           for (let i = 0; i < postdata.group.requests.length; i++) {
@@ -60,6 +64,15 @@ function SinglePost(props) {
 
   const onTagChange = (e) => {
     setTag(e.target.value);
+  }
+
+  const onHackChange = (e) => {
+    if (hack) {
+      setTag("");
+    } else {
+      setTag("Hackathon")
+    }
+    setHack(!hack);
   }
 
   const onEditButClick = (e) => {
@@ -194,7 +207,7 @@ function SinglePost(props) {
       
       {edit ?
         <PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange}
-        onTagChange={onTagChange} post={post}/>
+        onTagChange={onTagChange} post={post} hack={hack} onHackChange={onHackChange}/>
       : <div>
           <Post title={title} desc={desc} user={post.author.name} date={post.formatted_date}
           tag={tag} authorurl={post.author.url} posturl={post.url} />

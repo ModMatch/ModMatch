@@ -11,6 +11,7 @@ function Home(props) {
   const [desc, setDesc] = useState("");
   const [tag, setTag] = useState("");
   const [vet, setVet] = useState(false);
+  const [hack, setHack] = useState(false);
   const [size, setSize] = useState(0);
   const [questionNum, setQuestionNum] = useState(1);
   const [showForm, setShowForm] = useState(false);
@@ -59,13 +60,23 @@ function Home(props) {
     setQuestionNum(1);
   }
 
+  
+  const onHackChange = (e) => {
+    if (hack) {
+      setTag("");
+    } else {
+      setTag("Hackathon");
+    }
+    setHack(!hack);
+  }
+
   const onSizeChange = (e) => {
     setSize(e.target.value);
   }
 
  const onSubmit = async (e) => {
     e.preventDefault();
-    if (title === "" || desc === "" || tag === "") {
+    if (title === "" || desc === "" || (tag === "" && !hack)) {
       alert("Title, description, and tag cannot be empty");
     } else if (!vet) {
       await Api({
@@ -94,6 +105,8 @@ function Home(props) {
       })
     }
     e.target.reset();
+    setVet(false);
+    setHack(false);
     setShowForm(false);
     setTrigger(!trigger);
   }
@@ -104,7 +117,8 @@ function Home(props) {
 
   const addBut = (<button onClick={onAddButClick}>Add Post</button>);
   const form = (<PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange} 
-    onTagChange={onTagChange} onVetChange={onVetChange} onSizeChange={onSizeChange} vet={vet} addQ={onAddQuestion}/>);
+    onTagChange={onTagChange} onVetChange={onVetChange} onSizeChange={onSizeChange} vet={vet} addQ={onAddQuestion}
+    hack={hack} onHackChange={onHackChange}/>);
 
   if(loading) {
   return ("loading...");
