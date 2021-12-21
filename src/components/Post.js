@@ -16,7 +16,7 @@ function Post(props) {
         <tr>
           <Link to={props.authorurl}>user: {props.user}</Link>
           date: {props.date}
-          tag: {props.tag}
+          <Link to={`/tags/${props.tag}`}>tag: {props.tag}</Link>
         </tr>
       </table>
     </div>

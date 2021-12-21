@@ -7,7 +7,7 @@ import GroupPage from "./GroupPage";
 import useAuth from "./hooks/useAuth";
 import Application from "./Application";
 import ResponsePage from "./ResponsePage";
-import { useEffect } from "react";
+import TagPage from "./TagPage";
 import Signup from "./Signup";
 
 function RouteSwitch() {
@@ -32,6 +32,7 @@ function RouteSwitch() {
           <Route path="/home" element={<App />} />
           <Route path="/users/:userid" element={<ProfilePage />} />
           <Route path="/groups" element={<GroupPage />} />
+          <Route path="/tags/:tagname" element={<TagPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
