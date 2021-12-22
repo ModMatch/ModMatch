@@ -1,11 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import useAuth from './hooks/useAuth';
 import Group from './components/Group/Group';
+import PendingGroup from './components/Group/PendingGroup';
 import Header from './components/Header';
+import {Button} from '@mui/material';
 
 function GroupPage(props) {
 
   let {isAuth, name, id} = useAuth();
+  let [showPending, setShowPending] = useState(false);
 
   if (id === "") {
     return "loading..."
@@ -14,7 +17,8 @@ function GroupPage(props) {
   return (
     <div>
       <Header user={name} id={id} />
-      <Group curruserid={id} />
+      <Button onClick={() => setShowPending(!showPending)}>Toggle</Button>
+      {showPending ? <PendingGroup curruserid={id} /> : <Group curruserid={id} />}
     </div>
   );
 }
