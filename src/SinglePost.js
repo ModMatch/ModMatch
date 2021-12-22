@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from './components/Header';
 import useAuth from './hooks/useAuth';
-import Post from './components/Post';
+import EnlargedPost from './components/EnlargedPost';
 import PostForm from './components/PostForm';
 import CommentForm from './components/CommentForm';
 import Comment from './components/Comment';
@@ -210,7 +210,7 @@ function SinglePost(props) {
         <PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange}
         onTagChange={onTagChange} post={post} hack={hack} onHackChange={onHackChange}/>
       : <div>
-          <Post title={title} desc={desc} user={post.author.name} date={post.formatted_date}
+          <EnlargedPost title={title} desc={desc} user={post.author.name} date={post.formatted_date}
           tag={tag} authorurl={post.author.url} posturl={post.url} />
           {post.user == id ? authorAdminGroup : null}
         </div>}

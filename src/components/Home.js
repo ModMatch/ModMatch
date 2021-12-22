@@ -3,6 +3,7 @@ import  { useNavigate } from 'react-router-dom'
 import PostForm from './PostForm';
 import Post from './Post';
 import Api from '../Api';
+import { Box, Button } from '@mui/material';
 
 
 function Home(props) {
@@ -115,7 +116,7 @@ function Home(props) {
     setShowForm(true);
   }
 
-  const addBut = (<button onClick={onAddButClick}>Add Post</button>);
+  const addBut = (<Button onClick={onAddButClick}> Add Post</Button>);
   const form = (<PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange} 
     onTagChange={onTagChange} onVetChange={onVetChange} onSizeChange={onSizeChange} vet={vet} addQ={onAddQuestion}
     hack={hack} onHackChange={onHackChange}/>);
@@ -124,16 +125,19 @@ function Home(props) {
   return ("loading...");
 }
   return (
-    <div>
-      {showForm ? form : addBut}
+    <Box>
+      <Box display="flex" justifyContent="center" alignItems="center">
+        {showForm ? form : addBut}
+      </Box>
       {posts.map(obj=>{
         return (
-          <div>
+          <Box>
             <Post key={obj._id} id={obj._id} title={obj.title} desc={obj.description} posturl={obj.url}
              user={obj.author.name} date={obj.formatted_date} tag={obj.tag} authorurl={obj.author.url}/>
-          </div>)
+             <br/>
+          </Box>)
       })}
-    </div>
+    </Box>
   ); 
 }
 
