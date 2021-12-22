@@ -1,25 +1,35 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Card, CardActionArea, CardActions, CardContent, CardHeader, Typography, Link } from '@mui/material';
 
 function Post(props) {
+
+  const navigate = useNavigate();
+
   return (
-    <div data-postid={props.id}>
-      <table>
-        <tr>
-          <Link to={props.posturl}> 
-          Title: {props.title}
-          </Link>
-        </tr>
-        <tr>
-          Desc: {props.desc} 
-        </tr>
-        <tr>
-          <Link to={props.authorurl}>user: {props.user}</Link>
-          date: {props.date}
-          tag: {props.tag}
-        </tr>
-      </table>
-    </div>
+    <Card variant="outlined" sx={{
+      maxWidth: 700,
+      mx: "auto"
+    }}>
+      <CardActionArea component={Link} href={props.posturl}>
+        <CardHeader 
+          title= {<Typography variant="h5" color="text.primary" align='justify'>{props.title}</Typography>}
+          subheader={<div>
+            <Link href={props.authorurl} underline="hover">{props.user}</Link>
+            {' | '}
+            {props.date}
+            {' | '}
+            <Link href={`/tags/${props.tag}`} underline="hover">{props.tag}</Link>
+            </div>}
+          sx={{paddingBottom: "0"}}
+        />
+        <CardContent>
+            <Typography variant="body1" color="text.primary" align='justify'>
+              {props.desc} 
+            </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
   );
   
 }

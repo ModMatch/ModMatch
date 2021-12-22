@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Api from '../../Api';
+import SingleGroup from './SingleGroup';
 
 function Group(props) {
 
@@ -44,16 +45,8 @@ function Group(props) {
   return (
     <div>
       {groups.map(e => { return (
-        <div key={e._id}>
-          Title {e.title} <br/>
-          Desc {e.description} <br/>
-          Members <br/>
-          {e.users.map(u => { return (
-            <ul>{u.email}</ul>
-          )
-          })}
-        <button data-groupid={e._id} onClick={onLeaveButClick}>Leave</button>
-        </div>
+        <SingleGroup key={e._id} title={e.title} desc={e.description} users={e.users} id={e._id}
+        onLeaveButClick={onLeaveButClick}/>
       )})}
     </div>
   );

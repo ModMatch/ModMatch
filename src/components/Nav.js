@@ -1,12 +1,27 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import navModules from '../styles/Nav.module.css';
+import React, { useState } from 'react';
+import { createSearchParams, Link } from 'react-router-dom';
+import '../styles/Nav.css';
 import { useNavigate } from 'react-router-dom';
+import Api from '../Api';
 
 
 function Nav(props) {
 
   const navigate = useNavigate()
+
+  const[query, setQuery] = useState("")
+
+  const onQuery = (e) => {
+    setQuery(e.target.value);
+  }
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    navigate({
+      pathname: `/search`,
+      search: `?${createSearchParams({q: query})}`});
+    navigate(0);
+  }
   
   const logout = () => {
     localStorage.removeItem("Authorization");
@@ -14,15 +29,15 @@ function Nav(props) {
   }
 
   return (
-    <div className={navModules.Nav}>
-      <div className={navModules.left}>
-        <Link to="/home" className={navModules.home}>Home</Link>
-        <Link to="/" onClick={logout} className={navModules.logout}>Logout</Link>
-      </div>
-      <div className={navModules.right}>
-        <Link to={props.profileUrl} className={navModules.profile}>Profile</Link>
-        <Link to={'/groups'} className={navModules.groups}>Groups</Link>
-      </div>
+    <div className="Nav">
+      <Link to="/home">Home</Link>
+      <Link to="/" onClick={logout}>Logout</Link>
+      <Link to={props.profileUrl}>Profile</Link>
+      <Link to={'/groups'}>Groups</Link>
+      <form className="Form" onSubmit={onSubmit}> 
+        <input type='text' name='query' onChange={onQuery} placeholder='Module code'/>
+        <button type='submit'>Search</button>
+      </form>
     </div>
   );
   

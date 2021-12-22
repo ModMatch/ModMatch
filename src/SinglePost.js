@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from './components/Header';
 import useAuth from './hooks/useAuth';
-import Post from './components/Post';
+import EnlargedPost from './components/EnlargedPost';
 import PostForm from './components/PostForm';
 import CommentForm from './components/CommentForm';
 import Comment from './components/Comment';
@@ -15,12 +15,15 @@ function SinglePost(props) {
   const [desc, setDesc] = useState("");
   const [tag, setTag] = useState("");
   const [loading, setLoading] = useState(true);
+  const [hack, setHack] = useState(false);
   const [post, setPost] = useState({});
   const [edit, setEdit] = useState(false);
-  let isIn = false;
+  const [isIn, setIsIn] = useState(false);
+  const [isVet, setIsVet] = useState(false);
 
   let param = useParams();
   const navigate = useNavigate();
+
   useEffect(()=> {
     if (param) {
       setLoading(true);
@@ -29,15 +32,27 @@ function SinglePost(props) {
           Authorization: localStorage.getItem("Authorization")
         }
       }).then((apiPost) => {
-        console.log(apiPost.data)
-        setPost(apiPost.data.post);
-        setTitle(apiPost.data.post.title);
-        setDesc(apiPost.data.post.description);
-        setTag(apiPost.data.post.tag);
+        let postdata = apiPost.data.post;
+        setPost(postdata);
+        setTitle(postdata.title);
+        setDesc(postdata.description);
+        setTag(postdata.tag);
+        if (postdata.tag === "HACKATHON") {
+          setHack(true);
+        }
+        if (postdata.group.requests) {
+          setIsVet(true);
+          for (let i = 0; i < postdata.group.requests.length; i++) {
+            if (postdata.group.requests[i].user === id) {
+              setIsIn(true);
+              break;
+            }
+          }
+        }
         setLoading(false);
       }) 
     }
-  },[param]);
+  },[param, id]);
 
   const onTitleChange = (e) => {
     setTitle(e.target.value);
@@ -49,6 +64,15 @@ function SinglePost(props) {
 
   const onTagChange = (e) => {
     setTag(e.target.value);
+  }
+
+  const onHackChange = (e) => {
+    if (hack) {
+      setTag("");
+    } else {
+      setTag("Hackathon")
+    }
+    setHack(!hack);
   }
 
   const onEditButClick = (e) => {
@@ -88,15 +112,16 @@ function SinglePost(props) {
     let commentContent = e.target.elements["description"].value;
     if (commentContent === "") {
       alert("Comment cannot be empty");
+    } else {
+      Api({
+        method: 'post',
+        url: `/posts/${param.postid}`,
+        headers: {
+          Authorization: localStorage.getItem("Authorization")
+        },
+        data: {user: id, description: commentContent, name}
+      }).then(navigate(0))
     }
-    Api({
-      method: 'post',
-      url: `/posts/${param.postid}`,
-      headers: {
-        Authorization: localStorage.getItem("Authorization")
-      },
-      data: {user: id, description: commentContent, name}
-    }).then(navigate(0))
   }
 
  const onSubmit = async (e) => {
@@ -105,6 +130,7 @@ function SinglePost(props) {
       alert("Title, description, and tag cannot be empty");
     } else {
       setEdit(false);
+      setIsVet(false);
       navigate(0); 
       await Api({
         method: 'put',
@@ -138,30 +164,38 @@ function SinglePost(props) {
   }
 
   const onApplyButClick = async (e) => {
-    let isDelete = true;
-    if (isIn) {
-      isDelete = false;
-    }
 
+    if (isIn) {
+      navigate(0);
+      await Api({
+        method: 'put',
+        url: `/groups/${post.group._id}`,
+        headers: {
+          Authorization: localStorage.getItem("Authorization")
+        },  
+        data: {userid : id}
+      });
+    } else {
+      navigate(`/post/${param.postid}/apply`)
+    }
   }
 
   const SubmitBut = () => {
-    if (post.onModel === 'Group') {
+    if (!isVet) {
       return <button onClick={onJoinButClick}>{post.group.users.includes(id) ? "Unjoin" : "Join"}</button>
     } else {
-      for (var i = 0; i < post.group.requests.length; i++) {
-        if (post.group.requests[i].user === id) {
-          isIn = true;
-          break;
-        }
-      }
       return <button onClick={onApplyButClick}>{isIn ? "Unapply" : "Apply"}</button>
     }
+  }
+
+  const onViewButClick = () => {
+    navigate(`/post/${param.postid}/view`);
   }
 
   const authorAdminGroup = (<div>
     <button onClick={onDelButClick}>Delete Post</button>
     <button onClick={onEditButClick}>Edit Post</button>
+    {isVet ? <button onClick={onViewButClick}>View Application</button> : null}
   </div>);
 
   if (loading) {
@@ -174,9 +208,9 @@ function SinglePost(props) {
       
       {edit ?
         <PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange}
-        onTagChange={onTagChange} post={post}/>
+        onTagChange={onTagChange} post={post} hack={hack} onHackChange={onHackChange}/>
       : <div>
-          <Post title={title} desc={desc} user={post.author.name} date={post.formatted_date}
+          <EnlargedPost title={title} desc={desc} user={post.author.name} date={post.formatted_date}
           tag={tag} authorurl={post.author.url} posturl={post.url} />
           {post.user == id ? authorAdminGroup : null}
         </div>}

@@ -3,7 +3,7 @@ import  { useNavigate } from 'react-router-dom'
 import PostForm from './PostForm';
 import Post from './Post';
 import Api from '../Api';
-import homeCSS from './../styles/home.module.css';
+import { Box, Button } from '@mui/material';
 
 
 function Home(props) {
@@ -12,6 +12,7 @@ function Home(props) {
   const [desc, setDesc] = useState("");
   const [tag, setTag] = useState("");
   const [vet, setVet] = useState(false);
+  const [hack, setHack] = useState(false);
   const [size, setSize] = useState(0);
   const [questionNum, setQuestionNum] = useState(1);
   const [showForm, setShowForm] = useState(false);
@@ -60,13 +61,23 @@ function Home(props) {
     setQuestionNum(1);
   }
 
+  
+  const onHackChange = (e) => {
+    if (hack) {
+      setTag("");
+    } else {
+      setTag("Hackathon");
+    }
+    setHack(!hack);
+  }
+
   const onSizeChange = (e) => {
     setSize(e.target.value);
   }
 
  const onSubmit = async (e) => {
     e.preventDefault();
-    if (title === "" || desc === "" || tag === "") {
+    if (title === "" || desc === "" || (tag === "" && !hack)) {
       alert("Title, description, and tag cannot be empty");
     } else if (!vet) {
       await Api({
@@ -95,6 +106,8 @@ function Home(props) {
       })
     }
     e.target.reset();
+    setVet(false);
+    setHack(false);
     setShowForm(false);
     setTrigger(!trigger);
   }
@@ -103,24 +116,28 @@ function Home(props) {
     setShowForm(true);
   }
 
-  const addBut = (<button onClick={onAddButClick} className={homeCSS.addPost}> Add Post</button>);
+  const addBut = (<Button onClick={onAddButClick}> Add Post</Button>);
   const form = (<PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange} 
-    onTagChange={onTagChange} onVetChange={onVetChange} onSizeChange={onSizeChange} vet={vet} addQ={onAddQuestion}/>);
+    onTagChange={onTagChange} onVetChange={onVetChange} onSizeChange={onSizeChange} vet={vet} addQ={onAddQuestion}
+    hack={hack} onHackChange={onHackChange}/>);
 
   if(loading) {
   return ("loading...");
 }
   return (
-    <div>
-      {showForm ? form : addBut}
+    <Box>
+      <Box display="flex" justifyContent="center" alignItems="center">
+        {showForm ? form : addBut}
+      </Box>
       {posts.map(obj=>{
         return (
-          <div>
+          <Box>
             <Post key={obj._id} id={obj._id} title={obj.title} desc={obj.description} posturl={obj.url}
              user={obj.author.name} date={obj.formatted_date} tag={obj.tag} authorurl={obj.author.url}/>
-          </div>)
+             <br/>
+          </Box>)
       })}
-    </div>
+    </Box>
   ); 
 }
 
