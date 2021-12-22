@@ -3,6 +3,7 @@ import  { useNavigate } from 'react-router-dom'
 import PostForm from './PostForm';
 import Post from './Post';
 import Api from '../Api';
+import homeCSS from './../styles/home.module.css';
 
 
 function Home(props) {
@@ -102,7 +103,7 @@ function Home(props) {
     setShowForm(true);
   }
 
-  const addBut = (<button onClick={onAddButClick}>Add Post</button>);
+  const addBut = (<button onClick={onAddButClick} className={homeCSS.addPost}> Add Post</button>);
   const form = (<PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange} 
     onTagChange={onTagChange} onVetChange={onVetChange} onSizeChange={onSizeChange} vet={vet} addQ={onAddQuestion}/>);
 

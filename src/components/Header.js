@@ -1,13 +1,14 @@
 import React from 'react';
 import Nav from './Nav'
 import '../styles/Header.css'
+import navModules from '../styles/Nav.module.css';
 
 function Header(props) {
 
   return (
-    <nav className="Header">
+    <nav className={navModules.header}>
       <Nav profileUrl={`/users/${props.id}`}/>
-      <div>Hello, {props.user}</div>
+      <div className={navModules.hello}>Hello, {props.user}</div>
     </nav>
   );
   

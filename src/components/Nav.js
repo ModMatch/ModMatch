@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/Nav.css';
+import navModules from '../styles/Nav.module.css';
 import { useNavigate } from 'react-router-dom';
+
 
 function Nav(props) {
 
@@ -13,11 +14,15 @@ function Nav(props) {
   }
 
   return (
-    <div className="Nav">
-      <Link to="/home">Home</Link>
-      <Link to="/" onClick={logout}>Logout</Link>
-      <Link to={props.profileUrl}>Profile</Link>
-      <Link to={'/groups'}>Groups</Link>
+    <div className={navModules.Nav}>
+      <div className={navModules.left}>
+        <Link to="/home" className={navModules.home}>Home</Link>
+        <Link to="/" onClick={logout} className={navModules.logout}>Logout</Link>
+      </div>
+      <div className={navModules.right}>
+        <Link to={props.profileUrl} className={navModules.profile}>Profile</Link>
+        <Link to={'/groups'} className={navModules.groups}>Groups</Link>
+      </div>
     </div>
   );
   
