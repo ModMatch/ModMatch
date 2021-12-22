@@ -143,8 +143,10 @@ function SinglePost(props) {
     }
   }
   const onJoinButClick = async (e) => {
+    let isJoin = false;
     if (!post.group.users.includes(id)) {
       post.group.users.push(id);
+      isJoin = true;
     } else {
       post.group.users = post.group.users.filter(e => e !== id);
     }  
@@ -154,7 +156,7 @@ function SinglePost(props) {
       headers: {
         Authorization: localStorage.getItem("Authorization")
       },
-      data: {users : post.group.users}
+      data: {users: post.group.users, userid: id, postid: param.postid, isJoin}
     });
     if (res.data.isFull) {
       navigate('/groups');
@@ -173,7 +175,7 @@ function SinglePost(props) {
         headers: {
           Authorization: localStorage.getItem("Authorization")
         },  
-        data: {userid : id}
+        data: {userid: id, vet: true, postid: param.postid}
       });
     } else {
       navigate(`/post/${param.postid}/apply`)

@@ -131,11 +131,8 @@ function Home(props) {
       </Box>
       {posts.map(obj=>{
         return (
-          <Box>
-            <Post key={obj._id} id={obj._id} title={obj.title} desc={obj.description} posturl={obj.url}
-             user={obj.author.name} date={obj.formatted_date} tag={obj.tag} authorurl={obj.author.url}/>
-             <br/>
-          </Box>)
+          <Post key={obj._id} id={obj._id} title={obj.title} desc={obj.description} posturl={obj.url}
+          user={obj.author.name} date={obj.formatted_date} tag={obj.tag} authorurl={obj.author.url}/>)
       })}
     </Box>
   ); 

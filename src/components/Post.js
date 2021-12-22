@@ -9,7 +9,8 @@ function Post(props) {
   return (
     <Card variant="outlined" sx={{
       maxWidth: 700,
-      mx: "auto"
+      mx: "auto",
+      marginBottom: '1.2em'
     }}>
       <CardActionArea component={Link} href={props.posturl}>
         <CardHeader 

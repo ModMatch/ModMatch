@@ -9,7 +9,7 @@ function PostForm(props) {
 
   const vetQuestions = (<div className='questions'>
     <input type="text" name="1"/>
-    <button onClick={props.addQ}>Add</button>
+    <button type="button" onClick={props.addQ}>Add</button>
   </div>)
   console.log(props.hack)
   return (
