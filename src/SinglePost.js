@@ -112,15 +112,16 @@ function SinglePost(props) {
     let commentContent = e.target.elements["description"].value;
     if (commentContent === "") {
       alert("Comment cannot be empty");
+    } else {
+      Api({
+        method: 'post',
+        url: `/posts/${param.postid}`,
+        headers: {
+          Authorization: localStorage.getItem("Authorization")
+        },
+        data: {user: id, description: commentContent, name}
+      }).then(navigate(0))
     }
-    Api({
-      method: 'post',
-      url: `/posts/${param.postid}`,
-      headers: {
-        Authorization: localStorage.getItem("Authorization")
-      },
-      data: {user: id, description: commentContent, name}
-    }).then(navigate(0))
   }
 
  const onSubmit = async (e) => {

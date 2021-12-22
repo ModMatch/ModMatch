@@ -8,6 +8,7 @@ import useAuth from "./hooks/useAuth";
 import Application from "./Application";
 import ResponsePage from "./ResponsePage";
 import TagPage from "./TagPage";
+import SearchPage from "./SearchPage";
 import Signup from "./Signup";
 
 function RouteSwitch() {
@@ -33,6 +34,7 @@ function RouteSwitch() {
           <Route path="/users/:userid" element={<ProfilePage />} />
           <Route path="/groups" element={<GroupPage />} />
           <Route path="/tags/:tagname" element={<TagPage />} />
+          <Route path="/search" element={<SearchPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
