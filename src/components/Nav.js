@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createSearchParams, Link } from 'react-router-dom';
-import '../styles/Nav.css';
+import navModules from '../styles/Nav.module.css';
 import { useNavigate } from 'react-router-dom';
 import Api from '../Api';
 

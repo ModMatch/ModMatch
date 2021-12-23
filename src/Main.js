@@ -3,7 +3,19 @@ import  { Link, Navigate, useNavigate } from 'react-router-dom'
 import LoginForm from './components/Login/LoginForm';
 import useAuth from './hooks/useAuth'
 import Api from './Api';
-import mainCSS from './styles/main.module.css';
+import 'fontsource-roboto';
+import { Typography } from '@mui/material';
+import { Grid } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+  typography: {
+    subtitle1: {
+     fontFamily: '"Segoe UI"',
+
+    }
+  }
+})
 
 function Main() {
 
@@ -42,19 +54,32 @@ function Main() {
 
   if (!isAuth) {
     return (
-      <div className={mainCSS.main}>
-        <div className={mainCSS.welcome}>Welcome to ModMatch</div>
+      <ThemeProvider theme={theme}>
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        style={{ minHeight: '10vh' }}
+      >
+        <Typography variant="h2" color="primary">
+          Welcome to ModMatch
+        </Typography>
         {errors.map((e)=>{
           return <div>{e}</div>
         })}
         <div>
-          <div className={mainCSS.login}>Login:</div>
-          <div className={mainCSS.loginForm}>
+          <Typography variant="subtitle1">
+            Login:
+          </Typography>
+
+          <Typography>
             <LoginForm onEmailChange={onEmailChange} onPasswordChange={onPasswordChange} onLoginSubmit={onLoginSubmit}/>
-          </div>
+          </Typography>
         </div>
-        
-      </div>
+      </Grid>
+      </ThemeProvider>
     );
   }
 
