@@ -2,10 +2,10 @@ import React, {useState, useEffect} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from './components/Header';
 import useAuth from './hooks/useAuth';
-import EnlargedPost from './components/EnlargedPost';
-import PostForm from './components/PostForm';
-import CommentForm from './components/CommentForm';
-import Comment from './components/Comment';
+import EnlargedPost from './components/Post/EnlargedPost';
+import PostForm from './components/Post/PostForm';
+import CommentForm from './components/Comment/CommentForm';
+import Comment from './components/Comment/Comment';
 import Api from './Api';
 
 function SinglePost(props) {

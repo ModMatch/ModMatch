@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Post from '../Post';
+import Post from '../Post/Post';
 import ProfileEditForm from './ProfileEditForm';
 import ProfileHeader from './ProfileHeader';
 import Api from '../../Api';

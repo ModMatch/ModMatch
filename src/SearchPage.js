@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Header from './components/Header';
-import Post from './components/Post';
+import Post from './components/Post/Post';
 import useAuth from './hooks/useAuth';
 import Api from './Api';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';

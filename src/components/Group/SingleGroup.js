@@ -10,8 +10,7 @@ function SingleGroup(props) {
     <Card variant="outlined" sx={{
       maxWidth: 700,
       mx: "auto",
-      marginBottom: '1.2em'
-    }}>
+      }}>
       <CardHeader 
         sx={{paddingBottom: "0"}}
         title= {<Typography variant="h5" color="text.primary" align='justify'>{props.title}</Typography>}

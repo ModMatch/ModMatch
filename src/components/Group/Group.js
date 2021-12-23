@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Api from '../../Api';
 import SingleGroup from './SingleGroup';
+import {Stack} from '@mui/material';
 
 function Group(props) {
 
@@ -43,12 +44,14 @@ function Group(props) {
   }
 
   return (
-    <div>
-      {groups.map(e => { return (
+    <Stack spacing={2}
+      justifyContent="flex-start"
+      alignItems="center">
+      {groups.slice(0).reverse().map(e => { return (
         <SingleGroup key={e._id} title={e.title} desc={e.description} users={e.users} id={e._id}
         onLeaveButClick={onLeaveButClick}/>
       )})}
-    </div>
+    </Stack>
   );
 }
 

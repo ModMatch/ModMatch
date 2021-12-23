@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Api from '../../Api';
-import Post from '../Post';
+import Post from '../Post/Post';
 
 function PendingGroup(props) {
 

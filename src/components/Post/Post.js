@@ -4,13 +4,11 @@ import { Card, CardActionArea, CardActions, CardContent, CardHeader, Typography,
 
 function Post(props) {
 
-  const navigate = useNavigate();
-
   return (
     <Card variant="outlined" sx={{
       maxWidth: 700,
       mx: "auto",
-      marginBottom: '1.2em'
+      width: "stretch"
     }}>
       <CardActionArea component={Link} href={props.posturl}>
         <CardHeader 

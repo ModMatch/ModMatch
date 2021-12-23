@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import  { useNavigate } from 'react-router-dom'
-import PostForm from './PostForm';
-import Post from './Post';
+import PostForm from './Post/PostForm';
+import Post from './Post/Post';
 import Api from '../Api';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Stack } from '@mui/material';
 
 
 function Home(props) {
@@ -125,7 +125,9 @@ function Home(props) {
   return ("loading...");
 }
   return (
-    <Box>
+    <Stack spacing={2}
+      justifyContent="flex-start"
+      alignItems="center">
       <Box display="flex" justifyContent="center" alignItems="center">
         {showForm ? form : addBut}
       </Box>
@@ -134,7 +136,7 @@ function Home(props) {
           <Post key={obj._id} id={obj._id} title={obj.title} desc={obj.description} posturl={obj.url}
           user={obj.author.name} date={obj.formatted_date} tag={obj.tag} authorurl={obj.author.url}/>)
       })}
-    </Box>
+    </Stack>
   ); 
 }
 
