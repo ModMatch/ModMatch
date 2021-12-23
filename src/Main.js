@@ -7,6 +7,7 @@ import 'fontsource-roboto';
 import { Typography } from '@mui/material';
 import { Grid } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { spacing } from '@mui/system';
 
 const theme = createTheme({
   typography: {
@@ -70,7 +71,7 @@ function Main() {
           return <div>{e}</div>
         })}
         <div>
-          <Typography variant="subtitle1">
+          <Typography variant="h6" sx={{ mb: 1 }}>
             Login:
           </Typography>
 

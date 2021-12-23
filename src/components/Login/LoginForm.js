@@ -3,6 +3,7 @@ import Api from '../../Api'
 import loginForm from './../../styles/loginForm.module.css';
 import  { Link, Navigate, useNavigate } from 'react-router-dom'
 import TextField from '@mui/material/TextField';
+import { Button, Box } from '@mui/material';
 
 
 function LoginForm(props) {
@@ -13,7 +14,6 @@ function LoginForm(props) {
       <TextField
           id="outlined-required"
           label="Email"
-          defaultValue="XXXX@u.nus.edu"
           onChange={props.onEmailChange}
         />
       <TextField
@@ -23,10 +23,15 @@ function LoginForm(props) {
           autoComplete="current-password"
           onChange={props.onPasswordChange}
         />
-      <div className={loginForm.buttons}>
-        <button className={loginForm.signup} onClick={() => {navigate('/signup')}} type="button">Sign Up</button>
-        <button className={loginForm.button} type="submit">Submit</button>
-      </div>
+      <Box sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          mt: 1,
+          bgcolor: 'background.paper',
+        }}>
+        <Button onClick={() => {navigate('/signup')}}>Sign Up</Button>
+        <Button variant="contained" type="submit">Submit</Button>
+      </Box>
     </form>
   );
 }
