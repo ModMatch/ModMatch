@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { createSearchParams, Link } from 'react-router-dom';
-import { List, ListItem, ListItemButton } from '@mui/material';
+import { List, ListItem, ListItemButton, Menu, MenuItem } from '@mui/material';
 import Notification from './Notification';
 import Api from '../../Api';
 
 function Notifications(props) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const [notifs, setNotifs] = useState([]);
 
@@ -18,17 +26,33 @@ function Notifications(props) {
   }, [])
 
   return (
-    <List>
-      {notifs.slice(0).reverse().map(n => {
+    <Menu
+        id="demo-positioned-menu"
+        aria-labelledby="demo-positioned-button"
+        anchorEl={true}
+        open={true}
+        onClose={handleClose}
+        // anchorOrigin={{
+        //   vertical: 'top',
+        //   horizontal: 'left',
+        // }}
+        // transformOrigin={{
+        //   vertical: 'top',
+        //   horizontal: 'left',
+        // }}
+      >
+      <MenuItem onClick={handleClose}>Profile</MenuItem>
+      {/* {notifs.slice(0).reverse().map(n => {
         return (
-          <ListItem disablePadding>
+          <MenuItem>
+            n.url
             <ListItemButton>
               <Notification posturl={n.url} title={n.title} desc={n.description}/>
             </ListItemButton>
-          </ListItem>
+          </MenuItem>
         )
-      })}
-    </List>
+      })} */}
+    </Menu>
   );
   
 }

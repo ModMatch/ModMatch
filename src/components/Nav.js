@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { createSearchParams, Link } from 'react-router-dom';
-import navModules from '../styles/Nav.module.css';
 import { useNavigate } from 'react-router-dom';
 import Api from '../Api';
 import { ClickAwayListener, Button, Box } from '@mui/material';
 import Notifications from './Notification/Notifications';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
+import Badge from '@mui/material/Badge';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import IconButton from '@mui/material/IconButton';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
@@ -54,7 +56,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 function Nav(props) {
-
+  
   const navigate = useNavigate()
 
   const[query, setQuery] = useState("")
@@ -129,7 +131,15 @@ function Nav(props) {
         </Box>
         <ClickAwayListener onClickAway={() => setShowNotif(false)}>
         <Box>
-          <Button color="inherit" onClick={() => setShowNotif(!showNotif)}>
+          {/* <Badge badgeContent={4} color="primary">
+            <NotificationsIcon />
+          </Badge> */}
+          <Button 
+            color="inherit" 
+            onClick={() => setShowNotif(!showNotif)}
+            // anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            // transformOrigin={{ vertical: "top", horizontal: "center" }}
+            >
             Notifications
           </Button>
           {showNotif ? (
