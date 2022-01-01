@@ -17,7 +17,7 @@ function ProfileEditForm(props) {
       <FormControlLabel control={<Checkbox 
                                   defaultChecked={props.currValues.surname_first} 
                                   onChange={props.onOrderChange}/>} 
-                        label="Surname First?" id="name-order" name="order" onChange={props.onVetChange}/>
+                        label="Surname First?" id="name-order" name="order" onChange={props.onOrderChange}/>
       {/* <input id="name-order" type="checkbox" name="order" onChange={props.onOrderChange} defaultChecked={props.currValues.surname_first}/>
       <label htmlFor="name-order">Surname first?</label> */}
       <Box sx={{

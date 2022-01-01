@@ -122,7 +122,8 @@ function Nav(props) {
         </IconButton>
         <IconButton 
           component={Link} 
-          to="/home" 
+          to="/" 
+          onClick={logout}
           variant="contained" 
           color="inherit"
           sx={{ flexGrow: 1 }}
@@ -141,10 +142,7 @@ function Nav(props) {
         </Box>
         <ClickAwayListener onClickAway={() => setShowNotif(false)}>
         <Box>
-          {/* <Badge badgeContent={4} color="primary">
-            <NotificationsIcon />
-          </Badge> */}
-          <Button 
+          {/* <Button 
             color="inherit" 
             onClick={() => setShowNotif(!showNotif)}
             // anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
@@ -156,7 +154,8 @@ function Nav(props) {
             <Box>
               <Notifications userid={props.userid}/>
             </Box>
-          ) : null}
+          ) : null} */}
+          <Notifications userid={props.userid}/>
         </Box>
         </ClickAwayListener>
         <Box>

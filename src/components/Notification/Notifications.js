@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createSearchParams, Link } from 'react-router-dom';
-import { List, ListItem, ListItemButton, Menu, MenuItem } from '@mui/material';
+import { List, ListItem, ListItemButton, Menu, MenuItem, Button } from '@mui/material';
 import Notification from './Notification';
 import Api from '../../Api';
 
@@ -26,11 +26,21 @@ function Notifications(props) {
   }, [])
 
   return (
+    <div>
+    <Button
+        id="show-notifications-button"
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+        color="inherit" 
+      >
+        Notifications
+    </Button>
     <Menu
         id="demo-positioned-menu"
-        aria-labelledby="demo-positioned-button"
-        anchorEl={anchorEl}
-        open={anchorEl}
+        aria-labelledby="show-notifications-button"
+        anchorEl={open}
+        open={open}
         onClose={handleClose}
         anchorOrigin={{
           vertical: 'top',
@@ -41,18 +51,18 @@ function Notifications(props) {
           horizontal: 'left',
         }}
       >
-      <MenuItem onClick={handleClose}>Profile</MenuItem>
-      {/* {notifs.slice(0).reverse().map(n => {
+      {notifs.slice(0).reverse().map(n => {
         return (
           <MenuItem>
-            n.url
+            
             <ListItemButton>
               <Notification posturl={n.url} title={n.title} desc={n.description}/>
             </ListItemButton>
           </MenuItem>
         )
-      })} */}
+      })}
     </Menu>
+    </div>
   );
   
 }

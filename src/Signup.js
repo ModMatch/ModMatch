@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import  { Navigate, useNavigate } from 'react-router-dom'
 import SignupForm from './components/Signup/SignupForm';
 import Api from './Api';
+import {Typography} from '@mui/material';
 
 function Signup() {
 
@@ -59,12 +60,19 @@ function Signup() {
 
   return (
     <div className="Main">
-      Signup for ModMatch
+      <Typography variant="h2" align='center'>
+          Sign Up for ModMatch
+      </Typography>
       {errors.map((e)=>{
         return <div>{e.msg}</div>
       })}
       <div>
-        signup here
+        <div>
+        {/* <Typography variant="h5" color="primary" align='center'>
+          Sign Up Here
+        </Typography> */}
+        {/* <h1>{props.name}</h1> */}
+        </div>
         <SignupForm onEmailChange={onEmailChange} onGivenNameChange={onGivenNameChange} onOrderChange={onOrderChange}
         onPasswordChange={onPasswordChange} onPassword2Change={onPassword2Change} onSurnameChange={onSurnameChange}
         onSignupSubmit={onSignupSubmit}/>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import { Typography, Box, TextField, Checkbox, InputLabel, FormControlLabel, Button } from '@mui/material';
 
 function ProfileHeader(props) {
 

@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import Api from '../../Api'
-import loginForm from './../../styles/loginForm.module.css';
 import  { Link, Navigate, useNavigate } from 'react-router-dom'
 import TextField from '@mui/material/TextField';
 import { Button, Box } from '@mui/material';
@@ -13,10 +12,9 @@ function LoginForm(props) {
       display: 'flex',
       justifyContent: 'space-between',
       mt: 1,
-      width: 300,
-      height: 300,
+      width: 'auto'
     }}>
-    <form className={loginForm.Form} method="post" onSubmit={props.onLoginSubmit}>
+    <form method="post" onSubmit={props.onLoginSubmit}>
       {/* <input type="text" placeholder="Email" name="email" onChange={props.onEmailChange}/> */}
       <TextField
           id="outlined-required"
