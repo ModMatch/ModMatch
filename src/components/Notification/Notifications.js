@@ -29,17 +29,17 @@ function Notifications(props) {
     <Menu
         id="demo-positioned-menu"
         aria-labelledby="demo-positioned-button"
-        anchorEl={true}
-        open={true}
+        anchorEl={anchorEl}
+        open={anchorEl}
         onClose={handleClose}
-        // anchorOrigin={{
-        //   vertical: 'top',
-        //   horizontal: 'left',
-        // }}
-        // transformOrigin={{
-        //   vertical: 'top',
-        //   horizontal: 'left',
-        // }}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
       >
       <MenuItem onClick={handleClose}>Profile</MenuItem>
       {/* {notifs.slice(0).reverse().map(n => {

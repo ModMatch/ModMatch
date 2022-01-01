@@ -128,6 +128,15 @@ function Nav(props) {
         >
           Logout
         </IconButton>
+        <IconButton 
+          component={Link} 
+          to={props.profileUrl}
+          variant="contained" 
+          color="inherit"
+          sx={{ flexGrow: 1 }}
+        >
+          Profile
+        </IconButton>
         </Box>
         <ClickAwayListener onClickAway={() => setShowNotif(false)}>
         <Box>
