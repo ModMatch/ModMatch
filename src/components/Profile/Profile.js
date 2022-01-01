@@ -4,6 +4,7 @@ import ProfileEditForm from './ProfileEditForm';
 import ProfileHeader from './ProfileHeader';
 import Api from '../../Api';
 import { useNavigate } from 'react-router-dom';
+import { Typography, Button, Box } from '@mui/material';
 
 function Profile(props) {
 
@@ -69,20 +70,62 @@ function Profile(props) {
     }
   }
   return (
-    <div>
-      <div>
+    <Box sx={{
+      display: 'grid',
+      flexwrap: 'wrap',
+      justifyContent: 'center',
+      bgcolor: 'background.paper',
+      m: 1,
+      borderRadius: 1
+    }}>
+      <Box sx={{
+      display: 'flex',
+      flexwrap: 'wrap',
+      justifyContent: 'center',
+      bgcolor: 'background.paper',
+      m: 1,
+      borderRadius: 1
+      }}>
         {isEdit ? <ProfileEditForm onOldPasswordChange={onOldPasswordChange} onGivenNameChange={onGivenNameChange} onOrderChange={onOrderChange}
         onPasswordChange={onPasswordChange} onPassword2Change={onPassword2Change} onSurnameChange={onSurnameChange}
         onSubmit={onSubmit} currValues={props.user}/> : <ProfileHeader name={props.user.name}/>}
-      </div>
-      <div>
+      </Box>
+
+      <Box sx={{
+      display: 'flex',
+      flexwrap: 'wrap',
+      justifyContent: 'center',
+      bgcolor: 'background.paper',
+      m: 1,
+      borderRadius: 1
+      }}>
         {errors.map((e)=>{
           return <div>{e.msg}</div>
         })}
-        {(props.user._id === props.currid && !isEdit) ? <button onClick={editProfile}>edit</button>: null}
-      </div>
-      Posts
-      <div>
+        {(props.user._id === props.currid && !isEdit) ? <Button variant="contained" onClick={editProfile}>Edit</Button>
+        // <button onClick={editProfile}>edit</button>
+        : null}
+      </Box>
+      <Box sx={{
+      display: 'flex',
+      flexwrap: 'wrap',
+      justifyContent: 'center',
+      bgcolor: 'background.paper',
+      m: 1,
+      borderRadius: 1
+      }}>
+      <Typography variant="h4" color="primary" align='center'>
+        Posts
+      </Typography>
+      </Box>
+      <Box sx={{
+      display: 'flex',
+      flexwrap: 'wrap',
+      justifyContent: 'center',
+      bgcolor: 'background.paper',
+      m: 1,
+      borderRadius: 1
+      }}>
         {props.posts.map(obj=>{
           return (
             <div>
@@ -90,8 +133,8 @@ function Profile(props) {
               user={obj.author.name} date={obj.formatted_date} tag={obj.tag} authorurl={obj.author.url}/>
             </div>)
         })}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
   
 }

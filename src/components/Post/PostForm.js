@@ -10,7 +10,7 @@ function PostForm(props) {
 
   const uneditableOptions = (<div>
     {/* <input id="vetting" type="checkbox" name="vet" onChange={props.onVetChange}/> */}
-    <FormControlLabel control={<Checkbox />} label="Vetting?" id="vetting" name="vetting" onChange={props.onVetChange}/>
+    <FormControlLabel control={<Checkbox onChange={props.onVetChange}/>} label="Vetting?" id="vetting" name="vetting" onChange={props.onVetChange}/>
     {/* <InputLabel htmlFor="vetting">Vetting?</InputLabel> */}
     {/* <label htmlFor="vetting">Vetting?</label> */}
   </div>);
@@ -69,9 +69,14 @@ function PostForm(props) {
                                   // required="true"
                                   />
                                 : null}
-      <FormControlLabel label="Hackathon?" control={<Checkbox />} id="hackathon" onChange={props.onHackChange} defaultChecked={props.post? props.post.tag === "HACKATHON" : false }/>
+      <FormControlLabel label="Hackathon?" 
+                        control={<Checkbox onChange={props.onHackChange} 
+                                  defaultChecked={props.post? props.post.tag === "HACKATHON" : false }/>} 
+                        id="hackathon" 
+        />
       {/* <InputLabel htmlFor="hackathon">Hackathon?</InputLabel> */}
-      {props.hack ? null : <TextField label="Module Code" onChange={props.onTagChange} defaultValue={(props.post && props.post.tag !== "HACKATHON") ? props.post.tag : null }/>}
+      {props.hack ? null : <TextField label="Module Code" onChange={props.onTagChange} 
+        defaultValue={(props.post && props.post.tag !== "HACKATHON") ? props.post.tag : null }/>}
       <Button variant="contained" type="submit">{props.post ? "Save": "Submit"}</Button>
       {/* <button type="submit">{props.post ? "Save": "Submit"}</button> */}
       </form>
