@@ -21,7 +21,6 @@ function PostForm(props) {
     <Button variant="contained" onClick={props.addQ}>Add Question</Button>
     {/* <button type="button" onClick={props.addQ}>Add</button> */}
   </div>)
-  console.log(props.hack)
   return (
     // <form className="Form" onSubmit={props.onSubmit}>
     //   <input type="text" placeholder="Title" onChange={props.onTitleChange} defaultValue={props.post ? props.post.title : null }/>
@@ -46,7 +45,6 @@ function PostForm(props) {
     // <button type="submit">{props.post ? "Save": "Submit"}</button>
     // </form>
     <Box
-    component="form"
     sx={{
       '& > :not(style)': { m: 1, width: '25ch' },
     }}

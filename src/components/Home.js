@@ -109,6 +109,9 @@ function Home(props) {
     setVet(false);
     setHack(false);
     setShowForm(false);
+    setTitle("");
+    setDesc("");
+    setTag("");
     setTrigger(!trigger);
   }
 

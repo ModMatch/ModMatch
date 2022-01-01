@@ -25,7 +25,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   justifyContent: 'center',
 }));
 
-const Search = styled('div')(({ theme }) => ({
+const Search = styled('form')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -67,6 +67,7 @@ function Nav(props) {
   }
 
   const onSubmit = (e) => {
+    console.log("clicked")
     e.preventDefault();
     navigate({
       pathname: `/search`,
