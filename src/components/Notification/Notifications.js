@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createSearchParams, Link } from 'react-router-dom';
-import { List, ListItem, ListItemButton, Menu, MenuItem, Button } from '@mui/material';
+import { List, ListItem, ListItemButton, Menu, MenuItem, Button, Box } from '@mui/material';
 import Notification from './Notification';
 import Api from '../../Api';
 
@@ -54,7 +54,8 @@ function Notifications(props) {
       {notifs.slice(0).reverse().map(n => {
         return (
           <MenuItem>
-            
+            <Box></Box>
+            {/* have a space, then not have a space, and it will "refresh" */}
             <ListItemButton>
               <Notification posturl={n.url} title={n.title} desc={n.description}/>
             </ListItemButton>
