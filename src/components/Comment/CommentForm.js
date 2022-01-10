@@ -6,10 +6,13 @@ function CommentForm(props) {
   return (
     <Box sx={{
       display: 'flex',
-      justifyContent: 'space-between',
-      mt: 1,
-      width: '1em',
+      justifyContent: 'center',
+      mt: 2,
+      width: 'auto',
+      alignContent : "center",
+      alignItems: "center",
     }}>
+      <Box sx={{ width: '20rem',}}>
     <form className="Form" onSubmit={props.onSubmit}>
       <TextareaAutosize
           name='description'
@@ -18,14 +21,16 @@ function CommentForm(props) {
           defaultValue={props.description ? props.description : null }
           minRows={3}
           maxRows={5}
+          style={{ width: "20rem" }}
         />
       {/* <input type="text" placeholder="Comment" name='description'
       defaultValue={props.description ? props.description : null } /> */}
       <Button variant="contained" type="submit" 
         style={{maxWidth: '10rem', maxHeight: '3em', minWidth: '5rem', minHeight: '2em', fontSize: '0.7em'}}>
           {props.description ? "Save": "Comment"}</Button>
-      {/* <button type="submit">{props.description ? "Save": "Comment"}</button> */}
+      {/* <button type="submit">{props.description ? "Save": "Comment"}</button> */} 
     </form>
+      </Box>
     </Box>
   );
   

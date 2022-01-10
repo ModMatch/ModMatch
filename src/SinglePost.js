@@ -7,6 +7,10 @@ import PostForm from './components/Post/PostForm';
 import CommentForm from './components/Comment/CommentForm';
 import Comment from './components/Comment/Comment';
 import Api from './Api';
+import { Button, Box, LinearProgress, Typography } from '@mui/material';
+import PropTypes from 'prop-types';
+
+
 
 function SinglePost(props) {
 
@@ -184,9 +188,9 @@ function SinglePost(props) {
 
   const SubmitBut = () => {
     if (!isVet) {
-      return <button onClick={onJoinButClick}>{post.group.users.includes(id) ? "Unjoin" : "Join"}</button>
+      return <Button variant="contained" onClick={onJoinButClick}>{post.group.users.includes(id) ? "Unjoin" : "Join"}</Button>
     } else {
-      return <button onClick={onApplyButClick}>{isIn ? "Unapply" : "Apply"}</button>
+      return <Button variant="contained" onClick={onApplyButClick}>{isIn ? "Unapply" : "Apply"}</Button>
     }
   }
 
@@ -194,11 +198,11 @@ function SinglePost(props) {
     navigate(`/post/${param.postid}/view`);
   }
 
-  const authorAdminGroup = (<div>
-    <button onClick={onDelButClick}>Delete Post</button>
-    <button onClick={onEditButClick}>Edit Post</button>
-    {isVet ? <button onClick={onViewButClick}>View Application</button> : null}
-  </div>);
+  const authorAdminGroup = (<Box sx={{display: 'flex', alignItems: 'center', mt: "2em", justifyContent: "center"}}>
+    <Button variant="contained" onClick={onDelButClick}>Delete Post</Button>
+    <Button variant="contained" onClick={onEditButClick}>Edit Post</Button>
+    {isVet ? <Button variant="contained" onClick={onViewButClick}>View Application</Button> : null}
+  </Box>);
 
   if (loading) {
     return <div>Loading...</div>
@@ -216,10 +220,25 @@ function SinglePost(props) {
           tag={tag} authorurl={post.author.url} posturl={post.url} />
           {post.user == id ? authorAdminGroup : null}
         </div>}
-
+      <Box sx={{display: 'grid', alignItems: 'center', justifyContent: "center", mt: 1}}>
       { post.user !== id ? SubmitBut() : null}
-      {post.onModel === 'Group'? <span>{`${parseInt(post.group.users.length) - 1}/${parseInt(post.group.size) - 1}`}</span>
+
+      {post.onModel === 'Group'? 
+      <Box>
+        <Box sx={{alignItems: 'center', justifyContent: "center", width: '100%', mt: 1}}>
+          <LinearProgress variant="determinate" value={(parseInt(post.group.users.length) - 1)*100/(parseInt(post.group.size) - 1)} />
+        </Box>
+        <Box sx={{alignItems: 'center', justifyContent: "center", mt: 1}}>
+          <Typography align="center">
+          {`${parseInt(post.group.users.length) - 1}/${parseInt(post.group.size) - 1}`}
+          </Typography>
+        </Box>
+      </Box>
       : null}
+      </Box>
+
+
+
       <CommentForm onSubmit={onCommentSubmit}/>
       {post.comments.map(c=> {
         return(<Comment id={c._id} curruserid={id} desc={c.description} date={c.formatted_date} commenter={c.commenter.name}
