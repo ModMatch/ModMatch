@@ -7,6 +7,13 @@ function App() {
 
   let {isAuth, name, id} = useAuth();
 
+  if (!id) {
+    return (
+      "loading"
+    )
+  }
+
+
   return (
     <div className="App">
       <Header user={name} id={id}/>
