@@ -37,7 +37,7 @@ function Application(props) {
       headers: {
         Authorization: localStorage.getItem("Authorization")
       },
-      data: {responses: ans, id, postid: param.postid}
+      data: {responses: ans, id, postid: param.postid, name, posterid: post.author.id}
     })
   }
 
