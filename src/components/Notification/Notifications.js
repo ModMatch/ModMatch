@@ -14,7 +14,7 @@ function Notifications(props) {
     setAnchorEl(null);
   };
 
-  const [notifs, setNotifs] = useState([]);
+  const [notifs, setNotifs] = useState();
 
   useEffect(() => {
     Api.get(`users/${props.userid}/notifications`, {
@@ -24,6 +24,10 @@ function Notifications(props) {
     })
     .then(res => setNotifs(res.data.notifs.notifications))
   }, [])
+
+  if (!notifs) {
+    return ("loading");
+  }
 
   return (
     <div>
@@ -54,7 +58,6 @@ function Notifications(props) {
       {notifs.slice(0).reverse().map(n => {
         return (
           <MenuItem>
-            <Box></Box>
             {/* have a space, then not have a space, and it will "refresh" */}
             <ListItemButton>
               <Notification posturl={n.url} title={n.title} desc={n.description}/>
