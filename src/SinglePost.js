@@ -119,7 +119,7 @@ function SinglePost(props) {
         headers: {
           Authorization: localStorage.getItem("Authorization")
         },
-        data: {user: id, description: commentContent, name}
+        data: {user: id, description: commentContent, name, postuser: post.user}
       }).then(navigate(0))
     }
   }
