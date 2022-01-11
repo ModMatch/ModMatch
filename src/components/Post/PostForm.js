@@ -52,8 +52,15 @@ function PostForm(props) {
     autoComplete="off"
     >
       <form className="Form" onSubmit={props.onSubmit}>
-      <TextField label="Title" onChange={props.onTitleChange} variant="outlined" />
-      <TextField label="Description" onChange={props.onDescChange} variant="outlined" />
+      <Box
+      sx={{
+        '& > :not(style)': { m: 1, width: '25ch' },
+      }}
+      noValidate
+      autoComplete="off"
+      >
+      <TextField label="Title" onChange={props.onTitleChange} defaultValue={props.post ? props.post.title : null } variant="outlined"/>
+      <TextField label="Description" onChange={props.onDescChange} defaultValue={props.post ? props.post.description : null } variant="outlined" />
       {props.post ? null : uneditableOptions}
       {props.vet ? vetQuestions : null}
       {!props.vet && !props.post ? <TextField
@@ -67,16 +74,19 @@ function PostForm(props) {
                                   // required="true"
                                   />
                                 : null}
-      <FormControlLabel label="Hackathon?" 
-                        control={<Checkbox onChange={props.onHackChange} 
-                                  defaultChecked={props.post? props.post.tag === "HACKATHON" : false }/>} 
-                        id="hackathon" 
+      <div>
+        <FormControlLabel label="Hackathon?" 
+                          control={<Checkbox onChange={props.onHackChange} 
+                                    defaultChecked={props.post? props.post.tag === "HACKATHON" : false }/>} 
+                          id="hackathon" name="hackathon"
         />
+      </div>
       {/* <InputLabel htmlFor="hackathon">Hackathon?</InputLabel> */}
       {props.hack ? null : <TextField label="Module Code" onChange={props.onTagChange} 
         defaultValue={(props.post && props.post.tag !== "HACKATHON") ? props.post.tag : null }/>}
       <Button variant="contained" type="submit">{props.post ? "Save": "Submit"}</Button>
       {/* <button type="submit">{props.post ? "Save": "Submit"}</button> */}
+      </Box>
       </form>
     </Box>
   );
