@@ -8,7 +8,7 @@ function SingleGroup(props) {
 
   return (
     <Card variant="outlined" sx={{
-      maxWidth: 700,
+      width: "50rem",
       mx: "auto",
       }}>
       <CardHeader 

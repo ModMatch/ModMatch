@@ -124,14 +124,15 @@ function Profile(props) {
       justifyContent: 'center',
       bgcolor: 'background.paper',
       m: 1,
-      borderRadius: 1
+      borderRadius: 1,
+      width: "50rem"
       }}>
         {props.posts.map(obj=>{
           return (
-            <div>
+            <Box sx={{width: "50rem"}}>
               <Post key={obj._id} id={obj._id} title={obj.title} desc={obj.description} posturl={obj.url}
               user={obj.author.name} date={obj.formatted_date} tag={obj.tag} authorurl={obj.author.url}/>
-            </div>)
+            </Box>)
         })}
       </Box>
     </Box>
