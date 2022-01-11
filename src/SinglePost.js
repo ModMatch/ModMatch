@@ -24,6 +24,7 @@ function SinglePost(props) {
   const [edit, setEdit] = useState(false);
   const [isIn, setIsIn] = useState(false);
   const [isVet, setIsVet] = useState(false);
+  const [isExist, setIsExist] = useState(true);
 
   let param = useParams();
   const navigate = useNavigate();
@@ -54,7 +55,11 @@ function SinglePost(props) {
           }
         }
         setLoading(false);
-      }) 
+      }).catch(err => {
+        if (err.response.status == 404) {
+          setIsExist(false);
+        };
+      })
     }
   },[param, id]);
 
@@ -204,9 +209,11 @@ function SinglePost(props) {
     {isVet ? <Button variant="contained" onClick={onViewButClick}>View Application</Button> : null}
   </Box>);
 
-  if (loading) {
+  if (!isExist) {
+    return <div>error post does not exist</div>
+  } else if (loading) {
     return <div>Loading...</div>
-  }
+  } 
   
   return (
     <div className="single-post">
