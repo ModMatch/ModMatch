@@ -3,7 +3,7 @@ import  { useNavigate } from 'react-router-dom'
 import PostForm from './Post/PostForm';
 import Post from './Post/Post';
 import Api from '../Api';
-import { Box, Button, Stack } from '@mui/material';
+import { Box, Button, Stack, TextField } from '@mui/material';
 
 
 function Home(props) {
@@ -37,8 +37,10 @@ function Home(props) {
 
   },[trigger]);
 
+
   const onAddQuestion = (e) => {
     let q = document.createElement("input");
+    // <TextField label='Vetting Question Number ${questionNum+1}' variant="outlined" />
     q.name = questionNum + 1;
     e.target.parentNode.insertBefore(q, e.target);
     setQuestionNum(questionNum + 1);

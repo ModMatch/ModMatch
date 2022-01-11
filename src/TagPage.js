@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Post from './components/Post/Post';
 import useAuth from './hooks/useAuth';
 import Api from './Api';
+import { Typography} from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 
 function TagPage() {
@@ -32,7 +33,10 @@ function TagPage() {
   return (
     <div className="Tag">
       <Header user={name} id={id}/>
-      {param.tagname.toUpperCase()}
+      <Typography variant="h4" color="primary.dark" align='center'>
+        Tag: {param.tagname.toUpperCase()}
+      </Typography>
+      
       {posts.map(obj=>{
         return (
           <div>

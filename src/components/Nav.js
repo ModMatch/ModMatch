@@ -158,8 +158,8 @@ function Nav(props) {
           <Notifications userid={props.userid}/>
         </Box>
         </ClickAwayListener>
-        <Box>
-          <Search onSubmit={onSubmit}>
+        <Box sx={{alignItems: 'center'}}>
+          <Search onSubmit={onSubmit} sx={{alignItems: 'center'}}>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>

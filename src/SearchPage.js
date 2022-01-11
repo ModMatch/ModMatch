@@ -4,6 +4,7 @@ import Post from './components/Post/Post';
 import useAuth from './hooks/useAuth';
 import Api from './Api';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { Typography} from '@mui/material';
 const url = require('url');
 
 function SearchPage() {
@@ -33,7 +34,9 @@ function SearchPage() {
   return (
     <div className="Search">
       <Header user={name} id={id}/>
-      Search for {searchParams.get('q')}
+      <Typography variant="h4" color="primary.dark" align='center'>
+        Search for "{searchParams.get('q')}":
+      </Typography>
       {posts.map(obj=>{
         return (
           <div>

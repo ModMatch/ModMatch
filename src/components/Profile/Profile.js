@@ -119,8 +119,7 @@ function Profile(props) {
       </Typography>
       </Box>
       <Box sx={{
-      display: 'flex',
-      flexwrap: 'wrap',
+      display: 'grid',
       justifyContent: 'center',
       bgcolor: 'background.paper',
       m: 1,

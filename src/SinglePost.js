@@ -213,8 +213,10 @@ function SinglePost(props) {
       <Header user={name} id={id}/>
       
       {edit ?
-        <PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange}
-        onTagChange={onTagChange} post={post} hack={hack} onHackChange={onHackChange}/>
+        <Box sx={{display: 'grid', alignItems: 'center', justifyContent: "center", mt: 1}}>
+          <PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange}
+          onTagChange={onTagChange} post={post} hack={hack} onHackChange={onHackChange}/>
+        </Box>
       : <div>
           <EnlargedPost title={title} desc={desc} user={post.author.name} date={post.formatted_date}
           tag={tag} authorurl={post.author.url} posturl={post.url} />
