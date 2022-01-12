@@ -38,13 +38,13 @@ function SignupForm(props) {
       <Box sx={{
       display: 'flex',
       flexwrap: 'wrap',
-      justifyContent: 'space-between',
+      justifyContent: 'center',
       mt: 1,
-      borderRadius: 1
+      borderRadius: 1,
       }}>
       <TextField label="Email" name="email"
                   onChange={props.onOldPasswordChange} 
-                  onChange={props.onEmailChange} variant="outlined" />
+                  onChange={props.onEmailChange} variant="outlined" style ={{width: '100%'}}/>
       </Box>
       {/* <input type="text" placeholder="Email" name="email" onChange={props.onEmailChange}/> */}
       <Box sx={{

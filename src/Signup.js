@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import  { Navigate, useNavigate } from 'react-router-dom'
 import SignupForm from './components/Signup/SignupForm';
 import Api from './Api';
-import {Typography} from '@mui/material';
+import {Typography, createTheme, ThemeProvider} from '@mui/material';
 
 function Signup() {
 
@@ -57,15 +57,29 @@ function Signup() {
       setErrors(result.data.errors)
     }
   }
+  
+  const theme = createTheme({
+    palette: {
+      secondary: {
+        light: '#ff7961',
+        main: '#f44336',
+        dark: '#ba000d',
+      }
+    },
+  });
 
   return (
     <div className="Main">
       <Typography variant="h2" align='center'>
           Sign Up for ModMatch
       </Typography>
+      <ThemeProvider theme={theme}>
+      <Typography color="secondary.dark" align='center'>
       {errors.map((e)=>{
         return <div>{e.msg}</div>
       })}
+      </Typography>
+      </ThemeProvider>
       <div>
         <div>
         {/* <Typography variant="h5" color="primary" align='center'>
