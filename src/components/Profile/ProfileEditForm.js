@@ -3,7 +3,14 @@ import {Box, TextField, Checkbox, InputLabel, FormControlLabel, Button } from '@
 
 
 function ProfileEditForm(props) {
+
+  const [isPasswordEdit, setIsPasswordEdit] = useState(false);
   
+  const onPasswordChange = (e) => {
+    setIsPasswordEdit(!isPasswordEdit);
+    props.resetPassword();
+  }
+
   return (
     <Box sx={{
       display: 'flex',
@@ -18,8 +25,6 @@ function ProfileEditForm(props) {
                                   defaultChecked={props.currValues.surname_first} 
                                   onChange={props.onOrderChange}/>} 
                         label="Surname First?" id="name-order" name="order" onChange={props.onOrderChange}/>
-      {/* <input id="name-order" type="checkbox" name="order" onChange={props.onOrderChange} defaultChecked={props.currValues.surname_first}/>
-      <label htmlFor="name-order">Surname first?</label> */}
       <Box sx={{
       display: 'flex',
       flexwrap: 'wrap',
@@ -42,11 +47,15 @@ function ProfileEditForm(props) {
       mt: 1,
       borderRadius: 1
       }}>
-      <TextField label="Old Password" name="old-password"
+      <TextField label="Password" name="old-password"
                   onChange={props.onOldPasswordChange} 
                   type="password" variant="outlined" />
       </Box>
-      <Box sx={{
+      <FormControlLabel control={<Checkbox 
+                                  defaultChecked={false} 
+                                  onChange={onPasswordChange}/>} 
+                        label="Change Password" id="change-password" name="change" onChange={onPasswordChange}/>
+      {isPasswordEdit ? <Box sx={{
       display: 'flex',
       flexwrap: 'wrap',
       justifyContent: 'center',
@@ -59,12 +68,7 @@ function ProfileEditForm(props) {
       <TextField label="Confirm New Password" name="password-confirmation"
                   onChange={props.onPassword2Change} 
                   type="password" variant="outlined" />
-      </Box>
-      {/* <input type="text" placeholder="Given Name" name="given-name" onChange={props.onGivenNameChange} defaultValue={props.currValues.given_name}/>
-      <input type="text" placeholder="Surname" name="surname" onChange={props.onSurnameChange} defaultValue={props.currValues.surname}/> */}
-      {/* <input type="password" name="old-password" onChange={props.onOldPasswordChange}/>
-      <input type="password" name="password" onChange={props.onPasswordChange}/>
-      <input type="password" name="password-confirmation" onChange={props.onPassword2Change}/> */}
+      </Box> : null}
       <Box sx={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -72,7 +76,6 @@ function ProfileEditForm(props) {
         }}>
         <Button variant="contained" type="submit">Submit</Button>
       </Box>
-      {/* <button type="submit">Submit</button> */}
     </form>
     </Box>
   );

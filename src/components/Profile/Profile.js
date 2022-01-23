@@ -47,26 +47,43 @@ function Profile(props) {
     setPassword2(e.target.value);
   }
 
+  const resetPassword = (e) => {
+    setPassword("");
+    setPassword2("");
+  }
+
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    if (oldPassword == "") {
+      alert("Please enter your password");
+    }
 
     if (password != password2) {
       alert("Passwords do not match");
     }
 
-    await Api.post('/login', {email:props.user.email, password: oldPassword});
-    const result = await Api({
-      method: 'put',
-      url: props.user.url,
-      headers: {
-        Authorization: localStorage.getItem("Authorization")
-      },
-      data: {password, surnameOrder, surname, givenName}
-    })
-    if (result.data.success) {
-      navigate(0);
-    } else {
-      setErrors(result.data.errors);
+    try {
+      await Api.post('/login', {email:props.user.email, password: oldPassword});
+      const result = await Api({
+        method: 'put',
+        url: props.user.url,
+        headers: {
+          Authorization: localStorage.getItem("Authorization")
+        },
+        data: {password: (password || oldPassword), surnameOrder, surname, givenName}
+      })
+      if (result.data.success) {
+        navigate(0);
+      } else {
+        setErrors(result.data.errors);
+      }
+    } catch(err) {
+      console.log(err.response.status)
+      if (err.response.status == 401) {
+        e.target.reset();
+        setErrors([{msg : "Password is incorrect"}]);
+      }
     }
   }
   return (
@@ -88,7 +105,7 @@ function Profile(props) {
       }}>
         {isEdit ? <ProfileEditForm onOldPasswordChange={onOldPasswordChange} onGivenNameChange={onGivenNameChange} onOrderChange={onOrderChange}
         onPasswordChange={onPasswordChange} onPassword2Change={onPassword2Change} onSurnameChange={onSurnameChange}
-        onSubmit={onSubmit} currValues={props.user}/> : <ProfileHeader name={props.user.name}/>}
+        onSubmit={onSubmit} resetPassword={resetPassword} currValues={props.user}/> : <ProfileHeader name={props.user.name}/>}
       </Box>
 
       <Box sx={{
