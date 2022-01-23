@@ -10,13 +10,14 @@ import ResponsePage from "./ResponsePage";
 import TagPage from "./TagPage";
 import SearchPage from "./SearchPage";
 import Signup from "./Signup";
+import Loading from "./components/Loading";
 
 function RouteSwitch() {
 
   function PrivateOutlet() {
     let auth = useAuth().auth;
     if (auth === undefined) {
-      return (<div>Loading</div>);
+      return (<Loading/>);
     }
     return (auth ? <Outlet /> : <Main />);
   }

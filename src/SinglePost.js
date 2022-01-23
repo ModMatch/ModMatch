@@ -9,6 +9,7 @@ import Comment from './components/Comment/Comment';
 import Api from './Api';
 import { Button, Box, LinearProgress, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
+import Loading from './components/Loading';
 
 
 
@@ -212,7 +213,7 @@ function SinglePost(props) {
   if (!isExist) {
     return <div>error post does not exist</div>
   } else if (loading) {
-    return <div>Loading...</div>
+    return <Loading/>
   } 
   
   return (

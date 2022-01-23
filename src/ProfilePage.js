@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Profile from './components/Profile/Profile';
 import useAuth from './hooks/useAuth';
 import Api from './Api';
+import Loading from './components/Loading';
 import { useNavigate, useParams } from 'react-router-dom';
 
 function ProfilePage() {
@@ -29,7 +30,7 @@ function ProfilePage() {
 
 
   if (loading) {
-    return <div>loading</div>
+    return (<Loading/>);
   }
   return (
     <div className="Profile">

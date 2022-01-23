@@ -3,6 +3,7 @@ import { createSearchParams, Link } from 'react-router-dom';
 import { List, ListItem, ListItemButton, Menu, MenuItem, Button, Box, IconButton } from '@mui/material';
 import Notification from './Notification';
 import Api from '../../Api';
+import Loading from '../Loading';
 
 function Notifications(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -26,7 +27,7 @@ function Notifications(props) {
   }, [])
 
   if (!notifs) {
-    return ("loading");
+    return (<Loading/>);
   }
 
   return (

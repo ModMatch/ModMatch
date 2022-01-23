@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Header from './components/Header';
 import Home from './components/Home';
 import useAuth from './hooks/useAuth';
+import Loading from './components/Loading';
 
 function App() {
 
@@ -9,7 +10,7 @@ function App() {
 
   if (!id) {
     return (
-      "loading"
+      <Loading/>
     )
   }
 

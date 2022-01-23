@@ -4,6 +4,7 @@ import PostForm from './Post/PostForm';
 import Post from './Post/Post';
 import Api from '../Api';
 import { Box, Button, Stack, TextField } from '@mui/material';
+import Loading from './Loading';
 
 
 function Home(props) {
@@ -127,7 +128,7 @@ function Home(props) {
     hack={hack} onHackChange={onHackChange}/>);
 
   if(loading) {
-  return ("loading...");
+  return (<Loading/>);
 }
   return (
     <Stack spacing={2}

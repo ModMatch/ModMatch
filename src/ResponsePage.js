@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import useAuth from './hooks/useAuth';
 import Header from './components/Header';
 import Api from './Api';
+import Loading from './components/Loading';
 import { useNavigate, useParams } from 'react-router-dom';
 
 function ResponsePage(props) {
@@ -73,7 +74,7 @@ function ResponsePage(props) {
   }
 
   if (loading) {
-    return "loading..."
+    return (<Loading/>);
   }
   
   return (

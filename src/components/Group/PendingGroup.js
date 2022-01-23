@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Api from '../../Api';
+import Loading from '../Loading';
 import Post from '../Post/Post';
 
 function PendingGroup(props) {
@@ -26,7 +27,7 @@ function PendingGroup(props) {
   }, [])
 
   if (loading) {
-    return ("loading..");
+    return (<Loading/>);
   }
 
   return (

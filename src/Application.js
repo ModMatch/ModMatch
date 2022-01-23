@@ -3,6 +3,7 @@ import useAuth from './hooks/useAuth';
 import Header from './components/Header';
 import Api from './Api';
 import { useNavigate, useParams } from 'react-router-dom';
+import Loading from './components/Loading';
 
 function Application(props) {
 
@@ -42,7 +43,7 @@ function Application(props) {
   }
 
   if (loading) {
-    return "loading..."
+    return (<Loading/>);
   }
   
   return (

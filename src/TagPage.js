@@ -5,6 +5,7 @@ import useAuth from './hooks/useAuth';
 import Api from './Api';
 import { Typography} from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
+import Loading from './components/Loading';
 
 function TagPage() {
 
@@ -28,7 +29,7 @@ function TagPage() {
 
 
   if (loading) {
-    return <div>loading</div>
+    return <Loading/>
   }
   return (
     <div className="Tag">

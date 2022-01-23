@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Post from './components/Post/Post';
 import useAuth from './hooks/useAuth';
 import Api from './Api';
+import Loading from './components/Loading';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { Typography} from '@mui/material';
 const url = require('url');
@@ -29,7 +30,7 @@ function SearchPage() {
 
 
   if (loading) {
-    return <div>loading</div>
+    return <Loading/>
   }
   return (
     <div className="Search">

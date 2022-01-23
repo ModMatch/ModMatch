@@ -3,6 +3,7 @@ import useAuth from './hooks/useAuth';
 import Group from './components/Group/Group';
 import PendingGroup from './components/Group/PendingGroup';
 import Header from './components/Header';
+import Loading from './components/Loading';
 import {Button} from '@mui/material';
 
 function GroupPage(props) {
@@ -11,7 +12,7 @@ function GroupPage(props) {
   let [showPending, setShowPending] = useState(false);
 
   if (id === "") {
-    return "loading..."
+    return (<Loading/>);
   }
   
   return (

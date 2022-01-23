@@ -3,6 +3,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import Api from '../../Api';
 import SingleGroup from './SingleGroup';
 import {Stack} from '@mui/material';
+import Loading from '../Loading';
 
 function Group(props) {
 
@@ -40,7 +41,7 @@ function Group(props) {
   }
 
   if (loading) {
-    return ("loading..");
+    return (<Loading/>);
   }
 
   return (
