@@ -17,7 +17,6 @@ function CommentForm(props) {
       <TextareaAutosize
           name='description'
           placeholder="Comment"
-          onChange={props.onEmailChange}
           defaultValue={props.description ? props.description : null }
           minRows={3}
           maxRows={5}

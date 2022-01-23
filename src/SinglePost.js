@@ -100,12 +100,12 @@ function SinglePost(props) {
   const onCommentSaveButClick = (e) => {
     Api({
       method: 'put',
-      url: `/posts/${param.postid}/${e.target.parentNode.dataset.commentid}`,
+      url: `/posts/${param.postid}/${e.target.parentNode.parentNode.parentNode.dataset.commentid}`,
       headers: {
         Authorization: localStorage.getItem("Authorization")
       },
       data: {description: e.target.elements["description"].value}
-    })
+    }).then(navigate(0));
   }
 
   const onCommentDelButClick = (e) => {
