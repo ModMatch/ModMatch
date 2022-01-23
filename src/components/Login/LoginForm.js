@@ -1,21 +1,15 @@
 import React, {useState} from 'react';
 import Api from '../../Api'
 import  { Link, Navigate, useNavigate } from 'react-router-dom'
-import TextField from '@mui/material/TextField';
-import { Button, Box } from '@mui/material';
+import { Button, Box, TextField } from '@mui/material';
 
 
 function LoginForm(props) {
   let navigate = useNavigate();
   return (
-    <Box sx={{
-      display: 'flex',
-      justifyContent: 'space-between',
-      mt: 1,
-      width: 'auto'
-    }}>
     <form method="post" onSubmit={props.onLoginSubmit}>
       {/* <input type="text" placeholder="Email" name="email" onChange={props.onEmailChange}/> */}
+      <Box sx={{width: "50%", display: 'flex', flexDirection: "column", height: "auto", gap: "8px"}}>
       <TextField
           id="outlined-required"
           label="Email"
@@ -37,8 +31,8 @@ function LoginForm(props) {
         <Button onClick={() => {navigate('/signup')}}>Sign Up</Button>
         <Button variant="contained" type="submit">Submit</Button>
       </Box>
+      </Box>
     </form>
-    </Box>
   );
 }
 

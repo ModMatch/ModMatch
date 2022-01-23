@@ -2,16 +2,14 @@ import React, { useState } from 'react';
 import { createSearchParams, Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Api from '../Api';
-import { ClickAwayListener, Button, Box } from '@mui/material';
+import { ClickAwayListener, Button, Box, IconButton, InputBase } from '@mui/material';
 import Notifications from './Notification/Notifications';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import IconButton from '@mui/material/IconButton';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
-import InputBase from '@mui/material/InputBase';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
@@ -81,36 +79,15 @@ function Nav(props) {
   }
 
   return (
-    // <div className="Nav">
-    //   <Link to="/home">Home</Link>
-    //   <Link to="/" onClick={logout}>Logout</Link>
-    //   <Link to={props.profileUrl}>Profile</Link>
-    //   <Link to={'/groups'}>Groups</Link>
-    //   <ClickAwayListener onClickAway={() => setShowNotif(false)}>
-    //     <Box sx={{ position: 'relative' }}>
-    //       <Button onClick={() => setShowNotif(!showNotif)}>
-    //         Notifications
-    //       </Button>
-    //       {showNotif ? (
-    //         <Box sx={{position: 'absolute', background: 'white'}}>
-    //           <Notifications userid={props.userid}/>
-    //         </Box>
-    //       ) : null}
-    //     </Box>
-    //   </ClickAwayListener>
-    //   <form className="Form" onSubmit={onSubmit}> 
-    //     <input type='text' name='query' onChange={onQuery} placeholder='Module code'/>
-    //     <button type='submit'>Search</button>
-    //   </form>
-    // </div>
-    <Box sx={{ flexGrow: 1 }}>
-    <AppBar position="static">
+    <Box sx={{ flexGrow: 1, width: "auto"}}>
+    <AppBar position="fixed">
       <Toolbar sx={{
           display: 'flex',
           justifyContent: 'space-between'}}>
         <Box sx={{
             display: 'flex',
             justifyContent: 'space-between',
+            alignItems: "center"
           }}>
         <IconButton 
           component={Link} 
@@ -122,42 +99,23 @@ function Nav(props) {
         </IconButton>
         <IconButton 
           component={Link} 
-          to="/" 
-          onClick={logout}
+          to="/groups" 
           variant="contained" 
           color="inherit"
           sx={{ flexGrow: 1 }}
         >
-          Logout
+          Groups
         </IconButton>
-        <IconButton 
-          component={Link} 
-          to={props.profileUrl}
-          variant="contained" 
-          color="inherit"
-          sx={{ flexGrow: 1 }}
-        >
-          Profile
-        </IconButton>
-        </Box>
         <ClickAwayListener onClickAway={() => setShowNotif(false)}>
         <Box>
-          {/* <Button 
-            color="inherit" 
-            onClick={() => setShowNotif(!showNotif)}
-            // anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-            // transformOrigin={{ vertical: "top", horizontal: "center" }}
-            >
-            Notifications
-          </Button>
-          {showNotif ? (
-            <Box>
-              <Notifications userid={props.userid}/>
-            </Box>
-          ) : null} */}
           <Notifications userid={props.userid}/>
         </Box>
         </ClickAwayListener>
+        </Box>
+        <Box sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}>
         <Box>
           <Search onSubmit={onSubmit}>
               <SearchIconWrapper>
@@ -171,18 +129,24 @@ function Nav(props) {
               <Button variant="contained" type="submit">Submit</Button>
           </Search>
         </Box>
-        <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-          }}>
         <IconButton 
           component={Link} 
-          to="/groups" 
+          to={props.profileUrl}
           variant="contained" 
           color="inherit"
           sx={{ flexGrow: 1 }}
         >
-          Groups
+          Profile
+        </IconButton>
+        <IconButton 
+          component={Link} 
+          to="/" 
+          onClick={logout}
+          variant="contained" 
+          color="inherit"
+          sx={{ flexGrow: 1 }}
+        >
+          Logout
         </IconButton>
         </Box>
       </Toolbar>

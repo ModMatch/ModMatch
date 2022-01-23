@@ -4,8 +4,7 @@ import LoginForm from './components/Login/LoginForm';
 import useAuth from './hooks/useAuth'
 import Api from './Api';
 import 'fontsource-roboto';
-import { Typography } from '@mui/material';
-import { Grid } from '@mui/material';
+import { Typography, Grid, Box } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { spacing } from '@mui/system';
 
@@ -64,21 +63,28 @@ function Main() {
         justifyContent="center"
         style={{ minHeight: '10vh' }}
       >
-        <Typography variant="h2" color="primary">
-          Welcome to ModMatch
-        </Typography>
-        {errors.map((e)=>{
-          return <div>{e}</div>
-        })}
-        <div>
-          <Typography variant="h6" sx={{ mb: 1 }}>
-            Login:
-          </Typography>
+        <Box sx={{display: 'flex', margin: "5em 2em", gap: "5em"}}>
+          <Box sx={{display: 'grid', width: "maxContent", textAlign: "right"}}>
+            <Typography variant="h2" color="primary">
+              Welcome to ModMatch
+            </Typography>
+            <Typography sx={{width: "70%", textAlign: "right", justifySelf: "right"}}>
+              We hope to match students who are looking for groups, be it for studying or competitions!
+            </Typography>
+          </Box>
+          <Box sx={{width: "50%"}}>
+            {errors.map((e)=>{
+              return <div>{e}</div>
+            })}
+            <Typography variant="h6" sx={{ mb: 1 }}>
+              Login:
+            </Typography>
 
-          <Typography>
-            <LoginForm onEmailChange={onEmailChange} onPasswordChange={onPasswordChange} onLoginSubmit={onLoginSubmit}/>
-          </Typography>
-        </div>
+            <Typography>
+              <LoginForm onEmailChange={onEmailChange} onPasswordChange={onPasswordChange} onLoginSubmit={onLoginSubmit}/>
+            </Typography>
+          </Box>
+        </Box>
       </Grid>
       </ThemeProvider>
     );

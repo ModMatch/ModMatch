@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createSearchParams, Link } from 'react-router-dom';
-import { List, ListItem, ListItemButton, Menu, MenuItem, Button, Box } from '@mui/material';
+import { List, ListItem, ListItemButton, Menu, MenuItem, Button, Box, IconButton } from '@mui/material';
 import Notification from './Notification';
 import Api from '../../Api';
 
@@ -31,7 +31,7 @@ function Notifications(props) {
 
   return (
     <div>
-    <Button
+    <IconButton
         id="show-notifications-button"
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
@@ -39,7 +39,7 @@ function Notifications(props) {
         color="inherit" 
       >
         Notifications
-    </Button>
+    </IconButton>
     <Menu
         id="demo-positioned-menu"
         aria-labelledby="show-notifications-button"
