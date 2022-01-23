@@ -11,6 +11,7 @@ import TagPage from "./TagPage";
 import SearchPage from "./SearchPage";
 import Signup from "./Signup";
 import Loading from "./components/Loading";
+import Token from "./components/Token";
 
 function RouteSwitch() {
 
@@ -26,6 +27,7 @@ function RouteSwitch() {
     <BrowserRouter>
       <Routes>
         <Route path="/signup" element={<Signup />}/>
+        <Route path="/verify/:id/:token" element={<Token />} />
         <Route path="/" element={<PrivateOutlet />}>
           <Route path="/" element={<App />} />
           <Route path="/post/:postid" element={<SinglePost />} />

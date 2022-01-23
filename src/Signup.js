@@ -49,10 +49,10 @@ function Signup() {
 
     const result = await Api.post('/signup', {email, password, surnameOrder, surname, givenName});
     if (result.data.success) {
-      const login = await Api.post('/login', {email, password});
-      localStorage.setItem('Authorization', `bearer ${login.data.token}`)
-      navigate('/home');
-      navigate(0);
+      //const login = await Api.post('/login', {email, password});
+      //localStorage.setItem('Authorization', `bearer ${login.data.token}`)
+      navigate('/');
+      //navigate(0);
     } else {
       setErrors(result.data.errors)
     }
