@@ -6,7 +6,7 @@ function Post(props) {
 
   return (
     <Card variant="outlined" sx={{
-      maxWidth: 700,
+      maxWidth: "50rem",
       mx: "auto",
       width: "stretch"
     }}>

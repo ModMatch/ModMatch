@@ -45,14 +45,12 @@ function Signup() {
 
     if (password != password2) {
       alert("Passwords do not match");
+      return;
     }
 
     const result = await Api.post('/signup', {email, password, surnameOrder, surname, givenName});
     if (result.data.success) {
-      //const login = await Api.post('/login', {email, password});
-      //localStorage.setItem('Authorization', `bearer ${login.data.token}`)
       navigate('/');
-      //navigate(0);
     } else {
       setErrors(result.data.errors)
     }
@@ -81,12 +79,6 @@ function Signup() {
       </Typography>
       </ThemeProvider>
       <div>
-        <div>
-        {/* <Typography variant="h5" color="primary" align='center'>
-          Sign Up Here
-        </Typography> */}
-        {/* <h1>{props.name}</h1> */}
-        </div>
         <SignupForm onEmailChange={onEmailChange} onGivenNameChange={onGivenNameChange} onOrderChange={onOrderChange}
         onPasswordChange={onPasswordChange} onPassword2Change={onPassword2Change} onSurnameChange={onSurnameChange}
         onSignupSubmit={onSignupSubmit}/>

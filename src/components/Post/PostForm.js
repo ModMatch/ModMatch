@@ -1,52 +1,42 @@
-import React from 'react';
-import { Box, TextField, Checkbox, InputLabel, FormControlLabel, Button } from '@mui/material';
-// import Box from '@mui/material/Box';
-// import TextField from '@mui/material/TextField';
-// import Checkbox from '@mui/material/Checkbox';
-// import InputLabel from '@mui/material/InputLabel';
-
+import React, {useState, useEffect} from 'react';
+import { Box, TextField, Checkbox, FormControlLabel, Button } from '@mui/material';
 
 function PostForm(props) {
 
+
+
+  useEffect(() => {
+    props.setVetQuestionText(props.vetQuestionText.concat(""));
+  } ,[]);
+
+  const addQ = () => {
+    props.addQ();
+    props.setVetQuestionText(props.vetQuestionText.concat(""));
+  }
+
+  const onChange = (index, e) => {
+    let temp = [...props.vetQuestionText];
+    temp[index] = e.target.value;
+    props.setVetQuestionText(temp);
+  }
+
   const uneditableOptions = (<div>
-    {/* <input id="vetting" type="checkbox" name="vet" onChange={props.onVetChange}/> */}
     <FormControlLabel control={<Checkbox onChange={props.onVetChange}/>} label="Vetting?" id="vetting" name="vetting" onChange={props.onVetChange}/>
-    {/* <InputLabel htmlFor="vetting">Vetting?</InputLabel> */}
-    {/* <label htmlFor="vetting">Vetting?</label> */}
   </div>);
 
-  const vetQuestions = (<div className='questions'>
-    {/* <input type="text" name="1"/> */}
-    <TextField label="Questions to Ask" variant="outlined" />
-    <Button variant="contained" onClick={props.addQ}>Add Question</Button>
-    {/* <button type="button" onClick={props.addQ}>Add</button> */}
-  </div>)
+  const vetQuestions = (<Box className='questions' sx={{
+    '& > :not(style)': {mb: 1, width: '50ch' },
+    }}>
+    {props.vetQuestionText.map((el, i) => {
+      return (<TextField label="Question to Ask" required={i == 0 ? true : false} variant="outlined" defaultValue={el} onChange={(e) => onChange(i, e)}/>);
+    })}
+    <Button variant="contained" onClick={addQ}>Add Question</Button>
+  </Box>)
   return (
-    // <form className="Form" onSubmit={props.onSubmit}>
-    //   <input type="text" placeholder="Title" onChange={props.onTitleChange} defaultValue={props.post ? props.post.title : null }/>
-    //   <input type="text" placeholder="Description" onChange={props.onDescChange} defaultValue={props.post ? props.post.description : null }/>
-    //   {props.post ? null : uneditableOptions}
-    //   {props.vet ? vetQuestions : null}
-    //   {!props.vet && !props.post ? <input type="number" onChange={props.onSizeChange} min="1" required="true"/> : null}
-    //   <input id="hackathon" type="checkbox" onChange={props.onHackChange} defaultChecked={props.post? props.post.tag === "HACKATHON" : false }/>
-    //   <label htmlFor="hackathon">Hackathon?</label>
-    //   {props.hack ? null : <input type="text" placeholder="Module code" onChange={props.onTagChange} defaultValue={(props.post && props.post.tag !== "HACKATHON") ? props.post.tag : null }/>}
-    //   <button type="submit">{props.post ? "Save": "Submit"}</button>
-    // </form>
-    // <form className="Form" onSubmit={props.onSubmit}>
-    // <input type="text" placeholder="Title" onChange={props.onTitleChange} defaultValue={props.post ? props.post.title : null }/>
-    // <input type="text" placeholder="Description" onChange={props.onDescChange} defaultValue={props.post ? props.post.description : null }/>
-    // {props.post ? null : uneditableOptions}
-    // {props.vet ? vetQuestions : null}
-    // {!props.vet && !props.post ? <input type="number" onChange={props.onSizeChange} min="1" required="true"/> : null}
-    // <input id="hackathon" type="checkbox" onChange={props.onHackChange} defaultChecked={props.post? props.post.tag === "HACKATHON" : false }/>
-    // <label htmlFor="hackathon">Hackathon?</label>
-    // {props.hack ? null : <input type="text" placeholder="Module code" onChange={props.onTagChange} defaultValue={(props.post && props.post.tag !== "HACKATHON") ? props.post.tag : null }/>}
-    // <button type="submit">{props.post ? "Save": "Submit"}</button>
-    // </form>
+
     <Box
     sx={{
-      '& > :not(style)': { m: 1, width: '25ch' },
+      '& > :not(style)': { m: 1, width: '50ch' },
     }}
     noValidate
     autoComplete="off"
@@ -54,13 +44,13 @@ function PostForm(props) {
       <form className="Form" onSubmit={props.onSubmit}>
       <Box
       sx={{
-        '& > :not(style)': { m: 1, width: '25ch' },
+        '& > :not(style)': { m: 1, width: '50ch' },
       }}
       noValidate
       autoComplete="off"
       >
-      <TextField label="Title" onChange={props.onTitleChange} defaultValue={props.post ? props.post.title : null } variant="outlined"/>
-      <TextField label="Description" onChange={props.onDescChange} defaultValue={props.post ? props.post.description : null } variant="outlined" />
+      <TextField label="Title" required="true" onChange={props.onTitleChange} defaultValue={props.post ? props.post.title : null } variant="outlined"/>
+      <TextField label="Description" required="true" onChange={props.onDescChange} defaultValue={props.post ? props.post.description : null } variant="outlined" />
       {props.post ? null : uneditableOptions}
       {props.vet ? vetQuestions : null}
       {!props.vet && !props.post ? <TextField
@@ -71,7 +61,7 @@ function PostForm(props) {
                                     shrink: true,
                                   }}
                                   onChange={props.onSizeChange}
-                                  // required="true"
+                                  required="true"
                                   />
                                 : null}
       <div>
@@ -81,11 +71,9 @@ function PostForm(props) {
                           id="hackathon" name="hackathon"
         />
       </div>
-      {/* <InputLabel htmlFor="hackathon">Hackathon?</InputLabel> */}
-      {props.hack ? null : <TextField label="Module Code" onChange={props.onTagChange} 
+      {props.hack ? null : <TextField required="true" label="Module Code" onChange={props.onTagChange} 
         defaultValue={(props.post && props.post.tag !== "HACKATHON") ? props.post.tag : null }/>}
       <Button variant="contained" type="submit">{props.post ? "Save": "Submit"}</Button>
-      {/* <button type="submit">{props.post ? "Save": "Submit"}</button> */}
       </Box>
       </form>
     </Box>

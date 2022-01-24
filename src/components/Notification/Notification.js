@@ -4,7 +4,6 @@ import { Card, CardActionArea, CardActions, CardContent, CardHeader, Typography,
 
 
 function Notification(props) {
-
   
   return (
     <Card sx={{

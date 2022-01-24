@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { createSearchParams, Link } from 'react-router-dom';
-import { List, ListItem, ListItemButton, Menu, MenuItem, Button, Box, IconButton } from '@mui/material';
+import { CircularProgress, ListItemButton, Menu, MenuItem, Button, Box, IconButton, Typography } from '@mui/material';
 import Notification from './Notification';
 import Api from '../../Api';
 import Loading from '../Loading';
 
 function Notifications(props) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -15,19 +15,29 @@ function Notifications(props) {
     setAnchorEl(null);
   };
 
-  const [notifs, setNotifs] = useState();
+  const [notifs, setNotifs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [lastId, setlastId] = useState(Date.now());
+  const [dataAvailable, setDataAvailable] = useState(true);
 
   useEffect(() => {
-    Api.get(`users/${props.userid}/notifications`, {
+    getNotif();
+  }, [])
+
+  const getNotif = async () => {
+    setLoading(true);
+    const userNotifs =  await Api.get(`users/${props.userid}/notifications?lastId=${lastId}`, {
       headers: {
         Authorization: localStorage.getItem("Authorization")
       }
     })
-    .then(res => setNotifs(res.data.notifs.notifications))
-  }, [])
-
-  if (!notifs) {
-    return (<Loading/>);
+    if (userNotifs.data.notifs.notifications.length === 0) {
+      setDataAvailable(false);
+    } else {
+      setNotifs(notifs.concat(userNotifs.data.notifs.notifications));
+      setlastId(userNotifs.data.notifs.notifications.at(-1)._id);
+    }
+    setLoading(false);
   }
 
   return (
@@ -59,13 +69,16 @@ function Notifications(props) {
       {notifs.slice(0).reverse().map(n => {
         return (
           <MenuItem>
-            {/* have a space, then not have a space, and it will "refresh" */}
             <ListItemButton>
               <Notification posturl={n.url} title={n.title} desc={n.description}/>
             </ListItemButton>
           </MenuItem>
         )
       })}
+      {loading ? <Box  sx={{ display: 'flex', justifyContent: "center", alignItems: "center" }}>
+                  <CircularProgress />
+                  </Box> : null}
+      {dataAvailable ? null : <Typography>No more notifications!</Typography>}
     </Menu>
     </div>
   );

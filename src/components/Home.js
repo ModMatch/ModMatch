@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, createElement} from 'react';
 import  { useNavigate } from 'react-router-dom'
 import PostForm from './Post/PostForm';
 import Post from './Post/Post';
 import Api from '../Api';
-import { Box, Button, Stack, CircularProgress } from '@mui/material';
+import { Box, Button, Stack, CircularProgress, Typography, TextField } from '@mui/material';
 import Loading from './Loading';
 
 
@@ -16,14 +16,18 @@ function Home(props) {
   const [hack, setHack] = useState(false);
   const [size, setSize] = useState(0);
   const [questionNum, setQuestionNum] = useState(1);
+  const [vetQuestionText, setVetQuestionText] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [pageLoading, setPageLoading] = useState(true);
   const [dataAvailable, setDataAvailable] = useState(true);
   const [lastDate, setlastDate] = useState(Date.now());
 
   useEffect(()=> {
+    setPageLoading(true);
     getPosts();
+    setPageLoading(false);
   },[]);
 
   const getPosts = async () => {
@@ -52,9 +56,6 @@ function Home(props) {
 
 
   const onAddQuestion = (e) => {
-    let q = document.createElement("input");
-    q.name = questionNum + 1;
-    e.target.parentNode.insertBefore(q, e.target);
     setQuestionNum(questionNum + 1);
   }
 
@@ -103,20 +104,14 @@ function Home(props) {
         data: {title, user: props.id, description: desc, tag: tag.toUpperCase(), name: props.name, vet, size}
       })
     } else {
-      let q = e.target.querySelector('.questions');
-      let qarr = [];
-      for (var i = 0; i < questionNum; i++) {
-        if (q.childNodes[i].value !== "") {
-          qarr.push(q.childNodes[i].value);   
-        }  
-      }
+      let filtered = vetQuestionText.filter(e => e != '');
       await Api({
         method: 'post',
         url: '/posts/new',
         headers: {
           Authorization: localStorage.getItem("Authorization")
         },
-        data: {title, user: props.id, description: desc, tag: tag.toUpperCase(), name: props.name, vet, questions: qarr}
+        data: {title, user: props.id, description: desc, tag: tag.toUpperCase(), name: props.name, vet, questions: filtered}
       })
     }
     e.target.reset();
@@ -127,10 +122,17 @@ function Home(props) {
     setShowForm(true);
   }
 
-  const addBut = (<Button onClick={onAddButClick}> Add Post</Button>);
+  const addBut = (<Button onClick={onAddButClick} sx={{
+    width: "50rem",
+    mx: "auto",
+    }}> Add Post</Button>);
   const form = (<PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange} 
-    onTagChange={onTagChange} onVetChange={onVetChange} onSizeChange={onSizeChange} vet={vet} addQ={onAddQuestion}
-    hack={hack} onHackChange={onHackChange}/>);
+    onTagChange={onTagChange} onVetChange={onVetChange} onSizeChange={onSizeChange} vet={vet} addQ={onAddQuestion} questionNum={questionNum}
+    hack={hack} onHackChange={onHackChange} vetQuestionText={vetQuestionText} setVetQuestionText={setVetQuestionText}/>);
+
+  if (pageLoading) {
+    return <Loading />
+  }
 
   return (
     <Stack spacing={2}
@@ -147,7 +149,7 @@ function Home(props) {
       {loading ? <Box  sx={{ display: 'flex', justifyContent: "center", alignItems: "center" }}>
                   <CircularProgress />
                   </Box> : null}
-      {dataAvailable ? null : "Thats the end!"}
+      {dataAvailable ? null : <Typography>Thats the end!</Typography>}
     </Stack>
   ); 
 }
