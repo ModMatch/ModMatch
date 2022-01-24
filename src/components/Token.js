@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import Loading from './Loading';
 import Api from '../Api';
+import { Typography, Box, IconButton} from '@mui/material';
 
 function Token(props) {
 
@@ -25,7 +26,20 @@ function Token(props) {
   }
 
   return (
-    <div>{content}</div>
+    <Box>
+      <Typography color="secondary.dark" align='center'>
+        {content}
+      </Typography>
+      <IconButton 
+          component={Link} 
+          to="/ " 
+          variant="contained" 
+          color="inherit"
+          sx={{ flexGrow: 1 }}
+        >
+          Login Now!
+        </IconButton>
+    </Box>
   );
   
 }

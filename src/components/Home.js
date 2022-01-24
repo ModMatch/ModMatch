@@ -3,7 +3,7 @@ import  { useNavigate } from 'react-router-dom'
 import PostForm from './Post/PostForm';
 import Post from './Post/Post';
 import Api from '../Api';
-import { Box, Button, Stack, TextField } from '@mui/material';
+import { Box, Button, Stack, CircularProgress } from '@mui/material';
 import Loading from './Loading';
 
 
@@ -18,30 +18,41 @@ function Home(props) {
   const [questionNum, setQuestionNum] = useState(1);
   const [showForm, setShowForm] = useState(false);
   const [posts, setPosts] = useState([]);
-  const [trigger, setTrigger] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [dataAvailable, setDataAvailable] = useState(true);
+  const [lastDate, setlastDate] = useState(Date.now());
 
   useEffect(()=> {
-    setLoading(true);
-    async function getPosts() {
-      const allPosts = await Api.get('/posts', {
-        headers: {
-          Authorization: localStorage.getItem("Authorization")
-        }
-      })
-      setPosts(allPosts.data.posts);
-
-    }
-
     getPosts();
-    setLoading(false);
+  },[]);
 
-  },[trigger]);
+  const getPosts = async () => {
+    setLoading(true);
+    const allPosts = await Api.get(`/posts?lastDate=${lastDate}`, {
+      headers: {
+        Authorization: localStorage.getItem("Authorization")
+      }
+    })
+    if (allPosts.data.posts.length === 0) {
+      setDataAvailable(false);
+    } else {
+      setPosts(posts.concat(allPosts.data.posts));
+      setlastDate(allPosts.data.posts.at(-1).date);
+    }
+    setLoading(false);
+  }
+
+  window.onscroll = () => {
+    if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight) {
+      if(dataAvailable) {
+        getPosts();
+      }
+    }
+  }
 
 
   const onAddQuestion = (e) => {
     let q = document.createElement("input");
-    // <TextField label='Vetting Question Number ${questionNum+1}' variant="outlined" />
     q.name = questionNum + 1;
     e.target.parentNode.insertBefore(q, e.target);
     setQuestionNum(questionNum + 1);
@@ -109,13 +120,7 @@ function Home(props) {
       })
     }
     e.target.reset();
-    setVet(false);
-    setHack(false);
-    setShowForm(false);
-    setTitle("");
-    setDesc("");
-    setTag("");
-    setTrigger(!trigger);
+    navigate(0);
   }
 
   const onAddButClick = () => {
@@ -127,9 +132,6 @@ function Home(props) {
     onTagChange={onTagChange} onVetChange={onVetChange} onSizeChange={onSizeChange} vet={vet} addQ={onAddQuestion}
     hack={hack} onHackChange={onHackChange}/>);
 
-  if(loading) {
-  return (<Loading/>);
-}
   return (
     <Stack spacing={2}
       justifyContent="flex-start"
@@ -142,6 +144,10 @@ function Home(props) {
           <Post key={obj._id} id={obj._id} title={obj.title} desc={obj.description} posturl={obj.url}
           user={obj.author.name} date={obj.formatted_date} tag={obj.tag} authorurl={obj.author.url}/>)
       })}
+      {loading ? <Box  sx={{ display: 'flex', justifyContent: "center", alignItems: "center" }}>
+                  <CircularProgress />
+                  </Box> : null}
+      {dataAvailable ? null : "Thats the end!"}
     </Stack>
   ); 
 }
