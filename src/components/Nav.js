@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 import { createSearchParams, Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import Api from '../Api';
-import { ClickAwayListener, Button, Box, IconButton, InputBase } from '@mui/material';
+import { ClickAwayListener, Button, Box, InputBase, Icon, Typography } from '@mui/material';
 import Notifications from './Notification/Notifications';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Badge from '@mui/material/Badge';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
@@ -21,6 +17,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  flex: 1
 }));
 
 const Search = styled('form')(({ theme }) => ({
@@ -32,6 +29,7 @@ const Search = styled('form')(({ theme }) => ({
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
+  flex: 1,
   width: '100%',
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(3),
@@ -41,6 +39,7 @@ const Search = styled('form')(({ theme }) => ({
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
+  flex: 1,
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
@@ -52,6 +51,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
+
+const StyledButton = styled(Button)(({ theme}) => ({
+  color: 'inherit',
+  '&:hover': {
+    color: theme.palette.grey.A200,      
+    }
+}))
 
 function Nav(props) {
   
@@ -65,12 +71,12 @@ function Nav(props) {
   }
 
   const onSubmit = (e) => {
-    console.log("clicked")
     e.preventDefault();
-    navigate({
-      pathname: `/search`,
-      search: `?${createSearchParams({q: query})}`});
-    navigate(0);
+      navigate({
+        pathname: `/search`,
+        search: `?${createSearchParams({q: query})}`});
+      navigate(0);
+
   }
   
   const logout = () => {
@@ -79,75 +85,72 @@ function Nav(props) {
   }
 
   return (
-    <Box sx={{ flexGrow: 1, width: "auto"}}>
+    <Box display="flex" sx={{ flex: 1, width: "auto", marign: "auto"}}>
     <AppBar position="fixed">
       <Toolbar sx={{
-          display: 'flex',
-          justifyContent: 'space-between'}}>
+          display: "grid",
+          gridTemplateColumns: '1fr 2fr 1fr'
+          }}>
         <Box sx={{
             display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: "center"
+            alignItems: "center",
           }}>
-        <IconButton 
-          component={Link} 
-          to="/home" 
-          variant="contained" 
-          color="inherit"
-        >
-          Home
-        </IconButton>
-        <IconButton 
-          component={Link} 
-          to="/groups" 
-          variant="contained" 
-          color="inherit"
-          sx={{ flexGrow: 1 }}
-        >
-          Groups
-        </IconButton>
-        <ClickAwayListener onClickAway={() => setShowNotif(false)}>
-        <Box>
-          <Notifications userid={props.userid}/>
-        </Box>
-        </ClickAwayListener>
+          <ClickAwayListener onClickAway={() => setShowNotif(false)}>
+            <Box>
+              <Notifications userid={props.userid}/>
+            </Box>
+          </ClickAwayListener>
         </Box>
         <Box sx={{
             display: 'flex',
-            justifyContent: 'space-between',
+            alignItems: "center",
+            justifyContent: "center"
           }}>
-        <Box>
-          <Search onSubmit={onSubmit}>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ 'aria-label': 'search' }}
-                onChange={onQuery}
-              />
-              <Button variant="contained" type="submit">Submit</Button>
-          </Search>
+          <StyledButton 
+            component={Link} 
+            to="/home"  
+          >
+            <Typography>Home</Typography>
+          </StyledButton>
+          <StyledButton 
+            component={Link} 
+            to="/groups" 
+          >
+            <Typography>Groups</Typography>
+          </StyledButton>
+          <Box>
+            <Search onSubmit={onSubmit}>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search…"
+                  inputProps={{ 'aria-label': 'search' }}
+                  onChange={onQuery}
+                />
+                <input type="submit" hidden/>
+            </Search>
+          </Box>
         </Box>
-        <IconButton 
-          component={Link} 
-          to={props.profileUrl}
-          variant="contained" 
-          color="inherit"
-          sx={{ flexGrow: 1 }}
-        >
-          Profile
-        </IconButton>
-        <IconButton 
-          component={Link} 
-          to="/" 
-          onClick={logout}
-          variant="contained" 
-          color="inherit"
-          sx={{ flexGrow: 1 }}
-        >
-          Logout
-        </IconButton>
+
+        <Box sx={{
+            display: 'flex',
+            alignItems: 'flex-end',
+            justifyContent: 'flex-end'
+          }}>
+          <StyledButton 
+            component={Link} 
+            to={props.profileUrl}
+          >
+            <Typography>Profile</Typography>
+          </StyledButton>
+          <StyledButton 
+            component={Link} 
+            to="/" 
+            onClick={logout} 
+          >
+            <Typography>Logout</Typography>
+          </StyledButton>
         </Box>
       </Toolbar>
     </AppBar>

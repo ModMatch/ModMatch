@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { createSearchParams, Link } from 'react-router-dom';
-import { CircularProgress, ListItemButton, Menu, MenuItem, Button, Box, IconButton, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { CircularProgress, ListItemButton, Menu, MenuItem, Box, Button, Typography } from '@mui/material';
 import Notification from './Notification';
 import Api from '../../Api';
 import Loading from '../Loading';
@@ -24,6 +24,13 @@ function Notifications(props) {
     getNotif();
   }, [])
 
+  const StyledButton = styled(Button)(({ theme}) => ({
+    color: 'inherit',
+    '&:hover': {
+      color: theme.palette.grey.A200,      
+      }
+  }))
+
   const getNotif = async () => {
     setLoading(true);
     const userNotifs =  await Api.get(`users/${props.userid}/notifications?lastId=${lastId}`, {
@@ -42,15 +49,14 @@ function Notifications(props) {
 
   return (
     <div>
-    <IconButton
+    <StyledButton
         id="show-notifications-button"
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        color="inherit" 
       >
-        Notifications
-    </IconButton>
+        <Typography>Notifications</Typography>
+    </StyledButton>
     <Menu
         id="demo-positioned-menu"
         aria-labelledby="show-notifications-button"

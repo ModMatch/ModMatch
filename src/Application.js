@@ -4,6 +4,8 @@ import Header from './components/Header';
 import Api from './Api';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loading from './components/Loading';
+import { Button, Typography, Stack, TextField } from '@mui/material';
+import { Box } from '@mui/system';
 
 function Application(props) {
 
@@ -49,19 +51,29 @@ function Application(props) {
   return (
     <div>
       <Header user={name} id={id} />
-      {post.title}
-      {post.description}
+      <Stack spacing={2}
+        justifyContent="flex-start"
+        alignItems="center">
+        <Typography variant='h3'>{post.title}</Typography>
+        <Typography variant='h5'>{post.description}</Typography>
+      
       <form className="Form" onSubmit={onSubmit}>
-        {post.group.questions.map((q) => {
-          return (
-            <div>
-              {q} <br/>
-              <input name='input'/>
-            </div>
-          )
-        })}
-        <button type="submit">Submit</button>
+        <Stack spacing={2}
+          justifyContent="flex-start"
+          alignItems="center"
+          >
+          {post.group.questions.map((q) => {
+            return (
+              <Box sx={{ '& > :not(style)': { m: 1, width: '50ch' } }}>
+                <Typography variant='h6'>{q}</Typography>
+                <TextField label="Answer" required="true" variant="outlined" />
+              </Box>  
+            )
+          })}
+          <Button variant="contained" type="submit">Submit</Button>
+        </Stack>
       </form>
+      </Stack>
     </div>
   );
 }
