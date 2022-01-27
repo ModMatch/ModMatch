@@ -13,6 +13,7 @@ function Application(props) {
   let {isAuth, name, id} = useAuth();
   const [post, setPost] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [responses, setResponses] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,16 +24,19 @@ function Application(props) {
       }
     }).then((res) => {
       setPost(res.data.post);
+      setResponses(Array.from(Array(res.data.post.group.questions).fill("")));
       setLoading(false);
     });
-  }, [])
+  }, []);
+
+  const onChange = (index, e) => {
+    let temp = [...responses];
+    temp[index] = e.target.value;
+    setResponses(temp);
+  }
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    let ans = []
-    for (let i = 0; i < e.target.length - 1; i++) {
-      ans.push(e.target.childNodes[i].querySelector('input').value);
-    }
     navigate(`/post/${param.postid}`);
     await Api({
       method: 'post',
@@ -40,7 +44,7 @@ function Application(props) {
       headers: {
         Authorization: localStorage.getItem("Authorization")
       },
-      data: {responses: ans, id, postid: param.postid, name, posterid: post.author.id}
+      data: {responses, id, postid: param.postid, name, posterid: post.author.id}
     })
   }
 
@@ -62,11 +66,11 @@ function Application(props) {
           justifyContent="flex-start"
           alignItems="center"
           >
-          {post.group.questions.map((q) => {
+          {post.group.questions.map((q, i) => {
             return (
               <Box sx={{ '& > :not(style)': { m: 1, width: '50ch' } }}>
                 <Typography variant='h6'>{q}</Typography>
-                <TextField label="Answer" required="true" variant="outlined" />
+                <TextField label="Answer" required="true" variant="outlined" onChange={(e) => {onChange(i, e)}}/>
               </Box>  
             )
           })}
