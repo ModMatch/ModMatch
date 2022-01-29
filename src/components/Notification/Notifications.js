@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { styled } from '@mui/material/styles';
-import { CircularProgress, ListItemButton, Menu, MenuItem, Box, Button, Typography } from '@mui/material';
+import { CircularProgress, Menu, MenuItem, Box, IconButton, Typography } from '@mui/material';
 import Notification from './Notification';
 import Api from '../../Api';
-import Loading from '../Loading';
+import Badge from '@mui/material/Badge';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import { white } from '@mui/material/colors';
 
 function Notifications(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
+    console.log(event.currentTarget)
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -23,13 +25,6 @@ function Notifications(props) {
   useEffect(() => {
     getNotif();
   }, [])
-
-  const StyledButton = styled(Button)(({ theme}) => ({
-    color: 'inherit',
-    '&:hover': {
-      color: theme.palette.grey.A200,      
-      }
-  }))
 
   const getNotif = async () => {
     setLoading(true);
@@ -49,44 +44,38 @@ function Notifications(props) {
 
   return (
     <div>
-    <StyledButton
-        id="show-notifications-button"
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
+    <IconButton
         onClick={handleClick}
       >
-        <Typography>Notifications</Typography>
-    </StyledButton>
+        <Badge color="secondary" badgeContent={99}>
+          <NotificationsIcon sx={{color: "#fff", '&:hover': {
+            color: '#eeeeee',      
+            }}} />
+        </Badge>
+    </IconButton>
     <Menu
-        id="demo-positioned-menu"
-        aria-labelledby="show-notifications-button"
-        anchorEl={open}
+        anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
+        PaperProps={{
+          style: {
+            maxHeight: '60vh',
+          },
         }}
       >
-      {notifs.slice(0).reverse().map(n => {
-        return (
-          <MenuItem>
-            <ListItemButton>
-              <Notification posturl={n.url} title={n.title} desc={n.description}/>
-            </ListItemButton>
-          </MenuItem>
-        )
-      })}
-      {loading ? <Box  sx={{ display: 'flex', justifyContent: "center", alignItems: "center" }}>
-                  <CircularProgress />
-                  </Box> : null}
-      {dataAvailable ? null : <Typography>No more notifications!</Typography>}
-    </Menu>
-    </div>
+        {notifs.slice(0).reverse().map(n => {
+          return (
+            <MenuItem sx={{padding : '0'}}>
+                <Notification posturl={n.url} title={n.title} desc={n.description}/>
+            </MenuItem>
+          )
+        })}
+        {loading ? <Box  sx={{ display: 'flex', justifyContent: "center", alignItems: "center" }}>
+                    <CircularProgress />
+                    </Box> : null}
+        {dataAvailable ? null : <Typography>No more notifications!</Typography>}
+      </Menu>
+      </div>
   );
   
 }

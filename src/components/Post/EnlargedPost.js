@@ -1,15 +1,11 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Card, CardActionArea, CardActions, CardContent, CardHeader, Typography, Link } from '@mui/material';
 
 function EnlargedPost(props) {
 
-  const navigate = useNavigate();
-
   return (
     <Card variant="outlined" sx={{
-      maxWidth: 700,
-      mx: "auto"
+      width: "inherit"
     }}>
       <CardHeader 
         title= {<Typography variant="h5" color="text.primary" align='justify'>{props.title}</Typography>}

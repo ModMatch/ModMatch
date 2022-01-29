@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Api from '../../Api';
 import SingleGroup from './SingleGroup';
-import {Stack} from '@mui/material';
+import {Grid} from '@mui/material';
 import Loading from '../Loading';
 
 function Group(props) {
@@ -45,14 +45,22 @@ function Group(props) {
   }
 
   return (
-    <Stack spacing={2}
+    <Grid container
+      spacing={2}
       justifyContent="flex-start"
-      alignItems="center">
+      alignItems="center"
+    >
       {groups.slice(0).reverse().map(e => { return (
-        <SingleGroup key={e._id} title={e.title} desc={e.description} users={e.users} id={e._id}
-        onLeaveButClick={onLeaveButClick}/>
+        <Grid item container>
+          <Grid item xs={0} md={2} xl={3}/>
+          <Grid item xs={12} md={8} xl={6}>
+            <SingleGroup key={e._id} title={e.title} desc={e.description} users={e.users} id={e._id}
+            onLeaveButClick={onLeaveButClick}/>
+          </Grid>
+          <Grid item xs={0} md={2} xl={3}/>
+        </Grid>
       )})}
-    </Stack>
+    </Grid>
   );
 }
 

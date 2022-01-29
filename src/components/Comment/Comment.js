@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
-// import { Link } from 'react-router-dom';
 import CommentForm from './CommentForm';
-import { Button, Box, Link, Typography } from '@mui/material';
+import { Button, Link, Typography, Card, CardHeader, CardContent, IconButton, Menu, MenuItem } from '@mui/material';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 function Comment(props) {
 
   const[edit, setEdit] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const onCommentEditButClick = (e) => {
     setEdit(true);
@@ -13,67 +21,59 @@ function Comment(props) {
 
   if (edit) {
     return (<div data-commentid={props.id}>
-      <CommentForm onSubmit={props.onCommentSaveButClick} description={props.desc}/>
+      <CommentForm onSubmit={props.onCommentSaveButClick} description={props.desc} commentId={props.id}/>
     </div>);
   }
   return (
-    <Typography>
-    <Box sx={{display: 'grid', alignItems: 'center', justifyContent: "center"}}>
-    <div data-commentid={props.id}>
-      <Box sx={{
-          display: 'grid',
-          justifyContent: 'space-between',
-          mt: 1,
-          bgcolor: 'background.paper',
-          width : '20em',
-          minheight : '5em',
-          borderRadius: 5,
-          border: 1,
-          m: 1, p: 1,
-        }}>
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            mt: 1,
-            width : '20em'
-          }}>
-          <Link href={props.commenterurl} underline="hover">
-           User: {props.commenter}
-          </Link>
-          </Box>
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            mt: 1, pt:1, 
-            width : '20em',
-            borderTop: 1,
-          }}>
-          {props.desc} 
-          </Box>
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            mt: 1, pt:1, 
-            width : '20em',
-            borderTop: 1,
-          }}>
-          date: {props.date}
-          </Box>
-      </Box>
-      {props.commenterid == props.curruserid ? (<Box sx={{m:1, p:1}}>
-      <Button variant="contained" onClick={props.onCommentDelButClick}
-        style={{maxWidth: '10rem', maxHeight: '3em', minWidth: '5rem', minHeight: '2em', fontSize: '0.7em'}}>
-          Delete</Button>
-      {/* <button onClick={props.onCommentDelButClick}>Delete</button> */}
-      <Button variant="contained" onClick={onCommentEditButClick}
-        style={{maxWidth: '10rem', maxHeight: '3em', minWidth: '5rem', minHeight: '2em', fontSize: '0.7em'}}>
-          Edit</Button>
-      {/* <button onClick={onCommentEditButClick}>Edit</button> */}
-      </Box>) : null}
- 
-    </div>
-    </Box>
-    </Typography>
+    <Card variant='outlined'>
+      <CardHeader 
+        title={<Link href={props.commenterurl} underline="hover">
+                  <Typography variant='subtitle1'>
+                    {props.commenter}
+                  </Typography>
+                </Link>
+        }
+        subheader={<Typography variant='subtitle2'>
+                      {props.date}
+                    </Typography>
+        }
+        action={
+          props.commenterid == props.curruserid ? 
+          <IconButton aria-label="settings" onClick={handleClick}>
+            <MoreVertIcon />
+          </IconButton> : null
+        }
+      />
+      <CardContent>
+        <Typography sx={{wordBreak: 'break-all'}}>
+            {props.desc} 
+        </Typography>
+      </CardContent>
+
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          style: {
+            width: '20ch',
+          },
+        }}
+      > 
+        <MenuItem
+            onClick={props.onCommentDelButClick}
+            data-commentid={props.id}
+        >
+            Delete
+        </MenuItem>
+        <MenuItem 
+            onClick={onCommentEditButClick}
+        >
+            Edit
+        </MenuItem>
+
+      </Menu>
+    </Card>
   );
   
 }

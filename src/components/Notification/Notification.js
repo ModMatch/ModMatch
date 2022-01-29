@@ -1,16 +1,11 @@
-import React, { useState } from 'react';
-import { createSearchParams } from 'react-router-dom';
-import { Card, CardActionArea, CardActions, CardContent, CardHeader, Typography, Link } from '@mui/material';
+import React from 'react';
+import { Card, CardActionArea, CardContent, CardHeader, Typography, Link } from '@mui/material';
 
 
 function Notification(props) {
   
   return (
-    <Card sx={{
-      maxWidth: 400,
-      mx: "auto",
-      width: "25rem",
-      }}>
+    <Card sx={{width:'100%'}} elevation={0} >
       <CardActionArea component={Link} href={props.posturl}>
         <CardHeader 
           sx={{

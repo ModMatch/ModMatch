@@ -7,8 +7,7 @@ import PostForm from './components/Post/PostForm';
 import CommentForm from './components/Comment/CommentForm';
 import Comment from './components/Comment/Comment';
 import Api from './Api';
-import { Button, Box, LinearProgress, Typography } from '@mui/material';
-import PropTypes from 'prop-types';
+import { Button, Box, LinearProgress, Typography, Grid } from '@mui/material';
 import Loading from './components/Loading';
 
 
@@ -101,7 +100,7 @@ function SinglePost(props) {
   const onCommentSaveButClick = (e) => {
     Api({
       method: 'put',
-      url: `/posts/${param.postid}/${e.target.parentNode.parentNode.parentNode.dataset.commentid}`,
+      url: `/posts/${param.postid}/${e.target.dataset.commentid}`,
       headers: {
         Authorization: localStorage.getItem("Authorization")
       },
@@ -110,7 +109,7 @@ function SinglePost(props) {
   }
 
   const onCommentDelButClick = (e) => {
-    Api.delete(`/posts/${param.postid}/${e.target.parentNode.parentNode.dataset.commentid}`, {
+    Api.delete(`/posts/${param.postid}/${e.target.dataset.commentid}`, {
       headers: {
         Authorization: localStorage.getItem("Authorization")
       }
@@ -170,7 +169,6 @@ function SinglePost(props) {
     });
     if (res.data.isFull) {
       navigate('/groups');
-      //TODO call notification API and notify users in res.data.users
     }
     navigate(0);
   }
@@ -219,41 +217,60 @@ function SinglePost(props) {
   return (
     <div className="single-post">
       <Header user={name} id={id}/>
-      
-      {edit ?
-        <Box sx={{display: 'grid', alignItems: 'center', justifyContent: "center", mt: 1}}>
-          <PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange}
-          onTagChange={onTagChange} post={post} hack={hack} onHackChange={onHackChange}/>
-        </Box>
-      : <div>
-          <EnlargedPost title={title} desc={desc} user={post.author.name} date={post.formatted_date}
-          tag={tag} authorurl={post.author.url} posturl={post.url} />
-          {post.user == id ? authorAdminGroup : null}
-        </div>}
-      <Box sx={{display: 'grid', alignItems: 'center', justifyContent: "center", mt: 1}}>
-      { post.user !== id ? SubmitBut() : null}
-
-      {post.onModel === 'Group'? 
-      <Box>
-        <Box sx={{alignItems: 'center', justifyContent: "center", width: '100%', mt: 1}}>
-          <LinearProgress variant="determinate" value={(parseInt(post.group.users.length) - 1)*100/(parseInt(post.group.size) - 1)} />
-        </Box>
-        <Box sx={{alignItems: 'center', justifyContent: "center", mt: 1}}>
-          <Typography align="center">
-          {`${parseInt(post.group.users.length) - 1}/${parseInt(post.group.size) - 1}`}
-          </Typography>
-        </Box>
-      </Box>
-      : null}
-      </Box>
-
-
-
-      <CommentForm onSubmit={onCommentSubmit}/>
-      {post.comments.map(c=> {
-        return(<Comment id={c._id} curruserid={id} desc={c.description} date={c.formatted_date} commenter={c.commenter.name}
-        commenterurl={c.commenter.url} commenterid={c.commenter.id} onCommentDelButClick={onCommentDelButClick} onCommentSaveButClick={onCommentSaveButClick}/>)
-      })}
+      <Grid container
+        spacing={2} 
+        justifyContent="center"
+        alignItems="flex-start"
+      >           
+        <Grid item xs={0} md={2} xl={3}/>
+        {edit ?
+          <Grid item xs={12} md={8} xl={6}>
+            <PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange}
+            onTagChange={onTagChange} post={post} hack={hack} onHackChange={onHackChange}/>
+          </Grid>
+        : <Grid item xs={12} md={8} xl={6}>
+            <EnlargedPost title={title} desc={desc} user={post.author.name} date={post.formatted_date}
+            tag={tag} authorurl={post.author.url} posturl={post.url} />
+            {post.user == id ? authorAdminGroup : null}
+          </Grid>
+        }
+        <Grid item xs={0} md={2} xl={3}/>
+        <Grid item xs={0} md={2} xl={3}/>
+        <Grid container item xs={12} md={8} xl={6} justifyContent="center">
+          { post.user !== id ? SubmitBut() : null}
+        </Grid>
+        <Grid item xs={0} md={2} xl={3}/>
+        <Grid item xs={0} md={2} xl={3}/>
+        {post.onModel === 'Group'? 
+        <Grid item xs={12} md={8} xl={6}>
+          <Box sx={{alignItems: 'center', justifyContent: "center", width: '100%', mt: 1}}>
+            <LinearProgress variant="determinate" value={(parseInt(post.group.users.length) - 1)*100/(parseInt(post.group.size) - 1)} />
+          </Box>
+          <Box sx={{alignItems: 'center', justifyContent: "center", mt: 1}}>
+            <Typography align="center">
+            {`${parseInt(post.group.users.length) - 1}/${parseInt(post.group.size) - 1}`}
+            </Typography>
+          </Box>
+        </Grid>
+        : <Grid item xs={12} md={8} xl={6}/>}
+        <Grid item xs={0} md={2} xl={3}/>
+        <Grid item xs={0} md={3} xl={4}/>
+        <Grid item container xs={12} md={6} xl={4} justifyContent="center">
+          <CommentForm onSubmit={onCommentSubmit}/>
+        </Grid>
+        <Grid item xs={0} md={3} xl={4}/>
+        <Grid item container spacing={0}>
+        {post.comments.map(c=> {
+          return(<Grid item container>
+                  <Grid item xs={0} md={3} xl={4}/>
+                  <Grid item xs={12} md={6} xl={4}>
+                    <Comment id={c._id} curruserid={id} desc={c.description} date={c.formatted_date} commenter={c.commenter.name} commenterurl={c.commenter.url} commenterid={c.commenter.id} onCommentDelButClick={onCommentDelButClick} onCommentSaveButClick={onCommentSaveButClick}/>
+                  </Grid>
+                  <Grid item xs={0} md={3} xl={4}/>
+                </Grid>)
+        })}
+        </Grid>
+      </Grid>
     </div>
   );
   

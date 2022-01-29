@@ -6,7 +6,9 @@ function PostForm(props) {
 
 
   useEffect(() => {
-    props.setVetQuestionText(props.vetQuestionText.concat(""));
+    if (props.vetQuestionText) {
+      props.setVetQuestionText(props.vetQuestionText.concat(""));
+    }
   } ,[]);
 
   const addQ = () => {
@@ -24,19 +26,17 @@ function PostForm(props) {
     <FormControlLabel control={<Checkbox onChange={props.onVetChange}/>} label="Vetting?" id="vetting" name="vetting" onChange={props.onVetChange}/>
   </div>);
 
-  const vetQuestions = (<Box className='questions' sx={{
-    '& > :not(style)': {mb: 1, width: '50ch' },
-    }}>
+  const vetQuestions = (props.vetQuestionText ? <Box className='questions'>
     {props.vetQuestionText.map((el, i) => {
       return (<TextField label="Question to Ask" required={i == 0 ? true : false} variant="outlined" defaultValue={el} onChange={(e) => onChange(i, e)}/>);
     })}
     <Button variant="contained" onClick={addQ}>Add Question</Button>
-  </Box>)
-  return (
+  </Box> : null)
 
+  return (
     <Box
     sx={{
-      '& > :not(style)': { m: 1, width: '50ch' },
+      '& > :not(style)': { m: 1, width: 'stretch' },
     }}
     noValidate
     autoComplete="off"
@@ -44,7 +44,7 @@ function PostForm(props) {
       <form className="Form" onSubmit={props.onSubmit}>
       <Box
       sx={{
-        '& > :not(style)': { m: 1, width: '50ch' },
+        '& > :not(style)': { m: 1, width: 'stretch' },
       }}
       noValidate
       autoComplete="off"

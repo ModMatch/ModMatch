@@ -3,7 +3,7 @@ import  { useNavigate } from 'react-router-dom'
 import PostForm from './Post/PostForm';
 import Post from './Post/Post';
 import Api from '../Api';
-import { Box, Button, Stack, CircularProgress, Typography, TextField } from '@mui/material';
+import { Box, Button, Grid, CircularProgress, Typography } from '@mui/material';
 import Loading from './Loading';
 
 
@@ -47,7 +47,7 @@ function Home(props) {
   }
 
   window.onscroll = () => {
-    if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight) {
+    if (window.innerHeight + document.documentElement.scrollTop + 1>= document.documentElement.offsetHeight) {
       if(dataAvailable) {
         getPosts();
       }
@@ -122,10 +122,7 @@ function Home(props) {
     setShowForm(true);
   }
 
-  const addBut = (<Button onClick={onAddButClick} sx={{
-    width: "50rem",
-    mx: "auto",
-    }}> Add Post</Button>);
+  const addBut = (<Button onClick={onAddButClick} sx={{width:"stretch"}}> Add Post</Button>);
   const form = (<PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange} 
     onTagChange={onTagChange} onVetChange={onVetChange} onSizeChange={onSizeChange} vet={vet} addQ={onAddQuestion} questionNum={questionNum}
     hack={hack} onHackChange={onHackChange} vetQuestionText={vetQuestionText} setVetQuestionText={setVetQuestionText}/>);
@@ -135,22 +132,38 @@ function Home(props) {
   }
 
   return (
-    <Stack spacing={2}
-      justifyContent="flex-start"
-      alignItems="center">
-      <Box display="flex" justifyContent="center" alignItems="center">
+    <Grid container
+      spacing={2} 
+      justifyContent="center"
+      alignItems="flex-start"
+    > 
+      <Grid item xs={0} md={3} xl={4}/>
+      <Grid item
+        xs={12}
+        md={6}
+        xl={4}
+        justifyContent="center"
+      >
         {showForm ? form : addBut}
-      </Box>
+      </Grid>
+      <Grid item xs={0} md={3} xl={4}/>
       {posts.map(obj=>{
         return (
-          <Post key={obj._id} id={obj._id} title={obj.title} desc={obj.description} posturl={obj.url}
-          user={obj.author.name} date={obj.formatted_date} tag={obj.tag} authorurl={obj.author.url}/>)
+          <Grid item container>
+            <Grid item xs={0} md={3} xl={4}/>
+            <Grid item xs={12} md={6} xl={4}>
+              <Post key={obj._id} id={obj._id} title={obj.title} desc={obj.description} posturl={obj.url}
+              user={obj.author.name} date={obj.formatted_date} tag={obj.tag} authorurl={obj.author.url}/>
+            </Grid>
+            <Grid item xs={0} md={3} xl={4}/>
+          </Grid>
+          )
       })}
-      {loading ? <Box  sx={{ display: 'flex', justifyContent: "center", alignItems: "center" }}>
+      {loading ? <Grid item  sx={{ display: 'flex', justifyContent: "center", alignItems: "center" }}>
                   <CircularProgress />
-                  </Box> : null}
+                  </Grid> : null}
       {dataAvailable ? null : <Typography>Thats the end!</Typography>}
-    </Stack>
+    </Grid>
   ); 
 }
 

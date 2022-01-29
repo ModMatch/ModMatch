@@ -1,15 +1,11 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Card, CardActionArea, CardActions, CardContent, CardHeader, Typography, Button } from '@mui/material';
+import { Card, CardContent, CardHeader, Typography, Button } from '@mui/material';
 
 function SingleGroup(props) {
 
-  const navigate = useNavigate();
-
   return (
     <Card variant="outlined" sx={{
-      width: "50rem",
-      mx: "auto",
+      width: "inherit",
       }}>
       <CardHeader 
         sx={{paddingBottom: "0"}}
