@@ -25,10 +25,12 @@ function SignupForm(props) {
       }}>
       <TextField label="Given Name" name="given-name" 
                   onChange={props.onGivenNameChange} 
-                  variant="outlined" />
+                  variant="outlined"
+                  id="givenNameInputField" />
       <TextField label="Surname" name="surname" 
                   onChange={props.onSurnameChange} 
-                  variant="outlined" />
+                  variant="outlined"
+                  id="surnameInputField" />
       </Box>
       <Box sx={{
       display: 'flex',
@@ -38,8 +40,11 @@ function SignupForm(props) {
       borderRadius: 1,
       }}>
       <TextField label="Email" name="email"
+                  id="emailInputField"
                   onChange={props.onOldPasswordChange} 
-                  onChange={props.onEmailChange} variant="outlined" style ={{width: '100%'}}/>
+                  onChange={props.onEmailChange}
+                  variant="outlined"
+                  style ={{width: '100%'}}/>
       </Box>
       <Box sx={{
       display: 'flex',
@@ -49,9 +54,12 @@ function SignupForm(props) {
       borderRadius: 1
       }}>
       <TextField label="Password" name="password"
+                  id="passwordInputField"
                   onChange={props.onPasswordChange} 
-                  type="password" variant="outlined" />
+                  type="password"
+                  variant="outlined" />
       <TextField label="Confirm Password" name="password-confirmation"
+                  id="passwordConfirmationInputField"
                   onChange={props.onPassword2Change} 
                   type="password" variant="outlined" />
       </Box>
@@ -60,7 +68,11 @@ function SignupForm(props) {
           justifyContent: 'space-between',
           mt: 1,
         }}>
-        <Button variant="contained" type="submit">Submit</Button>
+        <Button variant="contained"
+         type="submit"
+         id="signupButton">
+           Submit
+        </Button>
       </Box>
     </form>
     </Box>

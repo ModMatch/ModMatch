@@ -1,12 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import  { Link, Navigate, useNavigate } from 'react-router-dom'
+import React, {useState} from 'react';
+import  { Navigate, useNavigate } from 'react-router-dom'
 import LoginForm from './components/Login/LoginForm';
 import useAuth from './hooks/useAuth'
 import Api from './Api';
 import 'fontsource-roboto';
 import { Typography, Grid, Box } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { spacing } from '@mui/system';
 
 const theme = createTheme({
   typography: {
@@ -56,6 +55,7 @@ function Main() {
     return (
       <ThemeProvider theme={theme}>
       <Grid
+        id="landing"
         container
         spacing={0}
         direction="column"
@@ -73,9 +73,11 @@ function Main() {
             </Typography>
           </Box>
           <Box sx={{width: "50%"}}>
-            {errors.map((e)=>{
-              return <div>{e}</div>
-            })}
+            <Typography color="secondary.dark" id="loginErrors">
+              {errors.map((e)=>{
+                return <div>{e}</div>
+              })}
+            </Typography>
             <Typography variant="h6" sx={{ mb: 1 }}>
               Login:
             </Typography>

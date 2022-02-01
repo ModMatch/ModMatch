@@ -144,7 +144,8 @@ function Nav(props) {
           >
             <Typography>Profile</Typography>
           </StyledButton>
-          <StyledButton 
+          <StyledButton
+            id='logoutLink' 
             component={Link} 
             to="/" 
             onClick={logout} 

@@ -72,7 +72,7 @@ function Signup() {
           Sign Up for ModMatch
       </Typography>
       <ThemeProvider theme={theme}>
-      <Typography color="secondary.dark" align='center'>
+      <Typography color="secondary.dark" align='center' id='signupErrors'>
       {errors.map((e)=>{
         return <div>{e.msg}</div>
       })}
