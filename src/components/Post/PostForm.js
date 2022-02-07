@@ -60,6 +60,7 @@ function PostForm(props) {
                                   InputLabelProps={{
                                     shrink: true,
                                   }}
+                                  InputProps={{ inputProps: { min: 1 } }}
                                   onChange={props.onSizeChange}
                                   required="true"
                                   />

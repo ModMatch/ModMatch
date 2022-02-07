@@ -140,6 +140,7 @@ function Nav(props) {
           }}>
           <StyledButton 
             component={Link} 
+            id='profileLink'
             to={props.profileUrl}
           >
             <Typography>Profile</Typography>

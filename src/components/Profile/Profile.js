@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Post from '../Post/Post';
 import ProfileEditForm from './ProfileEditForm';
 import ProfileHeader from './ProfileHeader';
@@ -81,7 +81,6 @@ function Profile(props) {
     } catch(err) {
       console.log(err.response.status)
       if (err.response.status == 401) {
-        e.target.reset();
         setErrors([{msg : "Password is incorrect"}]);
       }
     }
@@ -99,10 +98,17 @@ function Profile(props) {
       display: 'flex',
       flexwrap: 'wrap',
       justifyContent: 'center',
+      alignItems: 'center',
       bgcolor: 'background.paper',
       m: 1,
-      borderRadius: 1
+      borderRadius: 1,
+      flexDirection: 'column'
       }}>
+        <Typography color="secondary.dark" id="editProfileErrors">
+          {errors.map((e)=>{
+            return <div>{e.msg}</div>
+          })}
+        </Typography >
         {isEdit ? <ProfileEditForm onOldPasswordChange={onOldPasswordChange} onGivenNameChange={onGivenNameChange} onOrderChange={onOrderChange}
         onPasswordChange={onPasswordChange} onPassword2Change={onPassword2Change} onSurnameChange={onSurnameChange}
         onSubmit={onSubmit} resetPassword={resetPassword} currValues={props.user}/> : <ProfileHeader name={props.user.name}/>}
@@ -116,11 +122,13 @@ function Profile(props) {
       m: 1,
       borderRadius: 1
       }}>
-        {errors.map((e)=>{
-          return <div>{e.msg}</div>
-        })}
-        {(props.user._id === props.currid && !isEdit) ? <Button variant="contained" onClick={editProfile}>Edit</Button>
-        // <button onClick={editProfile}>edit</button>
+        {(props.user._id === props.currid && !isEdit) ? 
+        <Button 
+          variant="contained" 
+          onClick={editProfile}
+          id='editProfileButton'
+          >Edit
+        </Button>
         : null}
       </Box>
       <Box sx={{

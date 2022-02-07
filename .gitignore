@@ -22,3 +22,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .env
+tests/log.html
+tests/output.xml
+tests/report.html

@@ -33,7 +33,7 @@ function ProfilePage() {
     return (<Loading/>);
   }
   return (
-    <div className="Profile">
+    <div id="profile">
       <Header user={name} id={id}/>
       <Profile user={user} posts={posts} currid={id}/>
     </div>
