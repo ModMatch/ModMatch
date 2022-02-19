@@ -29,18 +29,21 @@ Name Order Changed Correctly
     [Tags]    Positive
     Select Checkbox   nameOrderEditCheckbox
     Submit Edit
+    Wait Until Page Contains Element   profileName
     Element Text Should Be    profileName   tan tom
 
 Given name Changed Correctly
     [Tags]    Positive
     Input Text    givenNameEditInput  tommy
     Submit Edit
+    Wait Until Page Contains Element   profileName
     Element Text Should Be    profileName   tan tommy
 
 Surname Changed Correctly
     [Tags]    Positive
     Input Text    surnameEditInput  tang
     Submit Edit
+    Wait Until Page Contains Element   profileName
     Element Text Should Be    profileName   tang tommy
 
 Password Changed Correctly
@@ -49,6 +52,7 @@ Password Changed Correctly
     Input Text    newPassword   1234567890
     Input Text    newPasswordConfirmation   1234567890
     Submit Edit
+    Wait Until Page Contains Element   profileName
     Set Global Variable   ${PASSWORD}   1234567890
     Logout
     Open Browser To Profile Page
@@ -62,6 +66,7 @@ All Fields Changed Correctly
     Input Text    newPassword   1234567
     Input Text    newPasswordConfirmation   1234567
     Submit Edit
+    Wait Until Page Contains Element   profileName
     Set Global Variable   ${PASSWORD}    1234567
     Logout
     Open Browser To Profile Page

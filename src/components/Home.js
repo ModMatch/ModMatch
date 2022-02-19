@@ -122,7 +122,7 @@ function Home(props) {
     setShowForm(true);
   }
 
-  const addBut = (<Button onClick={onAddButClick} sx={{width:"stretch"}}> Add Post</Button>);
+  const addBut = (<Button onClick={onAddButClick} sx={{width:"stretch"}} id="addPostButton"> Add Post</Button>);
   const form = (<PostForm onSubmit={onSubmit} onDescChange={onDescChange} onTitleChange={onTitleChange} 
     onTagChange={onTagChange} onVetChange={onVetChange} onSizeChange={onSizeChange} vet={vet} addQ={onAddQuestion} questionNum={questionNum}
     hack={hack} onHackChange={onHackChange} vetQuestionText={vetQuestionText} setVetQuestionText={setVetQuestionText}/>);
@@ -149,7 +149,7 @@ function Home(props) {
       <Grid item xs={0} md={3} xl={4}/>
       {posts.map(obj=>{
         return (
-          <Grid item container>
+          <Grid item container name="postContainer">
             <Grid item xs={0} md={3} xl={4}/>
             <Grid item xs={12} md={6} xl={4}>
               <Post key={obj._id} id={obj._id} title={obj.title} desc={obj.description} posturl={obj.url}
@@ -160,7 +160,7 @@ function Home(props) {
           )
       })}
       {loading ? <Grid item  sx={{ display: 'flex', justifyContent: "center", alignItems: "center" }}>
-                  <CircularProgress />
+                  <CircularProgress id="loading"/>
                   </Grid> : null}
       {dataAvailable ? null : <Typography>Thats the end!</Typography>}
     </Grid>

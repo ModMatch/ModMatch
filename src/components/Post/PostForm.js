@@ -26,11 +26,17 @@ function PostForm(props) {
     <FormControlLabel control={<Checkbox onChange={props.onVetChange}/>} label="Vetting?" id="vetting" name="vetting" onChange={props.onVetChange}/>
   </div>);
 
-  const vetQuestions = (props.vetQuestionText ? <Box className='questions'>
+  const vetQuestions = (props.vetQuestionText ? <Box className='questions'  id='questionsContainer'  sx={{
+    '& > :not(style)': { m: 1, width: 'stretch' },
+  }}>
     {props.vetQuestionText.map((el, i) => {
-      return (<TextField label="Question to Ask" required={i == 0 ? true : false} variant="outlined" defaultValue={el} onChange={(e) => onChange(i, e)}/>);
+      return (<TextField label="Question to Ask" 
+      required={i == 0 ? true : false} 
+      variant="outlined" 
+      defaultValue={el} 
+      onChange={(e) => onChange(i, e)}/>);
     })}
-    <Button variant="contained" onClick={addQ}>Add Question</Button>
+    <Button variant="contained" onClick={addQ} id='addQuestionButton'>Add Question</Button>
   </Box> : null)
 
   return (
@@ -49,8 +55,19 @@ function PostForm(props) {
       noValidate
       autoComplete="off"
       >
-      <TextField label="Title" required="true" onChange={props.onTitleChange} defaultValue={props.post ? props.post.title : null } variant="outlined"/>
-      <TextField label="Description" required="true" onChange={props.onDescChange} defaultValue={props.post ? props.post.description : null } variant="outlined" />
+      <TextField label="Title" 
+        required="true" 
+        onChange={props.onTitleChange} 
+        defaultValue={props.post ? props.post.title : null } 
+        variant="outlined"
+        id="titleInputField"/>
+      <TextField 
+        label="Description" 
+        required="true" 
+        onChange={props.onDescChange} 
+        defaultValue={props.post ? props.post.description : null } 
+        variant="outlined"
+        id="descriptionInputField" />
       {props.post ? null : uneditableOptions}
       {props.vet ? vetQuestions : null}
       {!props.vet && !props.post ? <TextField
@@ -60,6 +77,7 @@ function PostForm(props) {
                                   InputLabelProps={{
                                     shrink: true,
                                   }}
+                                  id="numberMembersField"
                                   InputProps={{ inputProps: { min: 1 } }}
                                   onChange={props.onSizeChange}
                                   required="true"
@@ -72,9 +90,9 @@ function PostForm(props) {
                           id="hackathon" name="hackathon"
         />
       </div>
-      {props.hack ? null : <TextField required="true" label="Module Code" onChange={props.onTagChange} 
+      {props.hack ? null : <TextField required="true" label="Module Code" id="moduleCodeField" onChange={props.onTagChange} 
         defaultValue={(props.post && props.post.tag !== "HACKATHON") ? props.post.tag : null }/>}
-      <Button variant="contained" type="submit">{props.post ? "Save": "Submit"}</Button>
+      <Button variant="contained" type="submit" id="postSubmitButton">{props.post ? "Save": "Submit"}</Button>
       </Box>
       </form>
     </Box>

@@ -203,8 +203,18 @@ function SinglePost(props) {
   }
 
   const authorAdminGroup = (<Box sx={{display: 'flex', alignItems: 'center', mt: "2em", justifyContent: "center"}}>
-    <Button variant="contained" onClick={onDelButClick}>Delete Post</Button>
-    <Button variant="contained" onClick={onEditButClick}>Edit Post</Button>
+    <Button 
+      variant="contained" 
+      onClick={onDelButClick} 
+      id="deleteButton">
+        Delete Post
+    </Button>
+    <Button 
+      variant="contained" 
+      onClick={onEditButClick}
+      id="editButton">
+        Edit Post
+    </Button>
     {isVet ? <Button variant="contained" onClick={onViewButClick}>View Application</Button> : null}
   </Box>);
 

@@ -32,6 +32,9 @@ Login Error Should Show
 
 Invalid Login
     [Arguments]    ${username}    ${password}
-    Login    ${username}    ${password}
+    Open Browser To Login Page
+    Input Username    ${username}
+    Input Password    ${password}
+    Submit Login
     Login Error Should Show
     [Teardown]    Close Browser
