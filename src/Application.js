@@ -4,7 +4,7 @@ import Header from './components/Header';
 import Api from './Api';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loading from './components/Loading';
-import { Button, Typography, Stack, TextField } from '@mui/material';
+import { Button, Typography, Grid, TextField } from '@mui/material';
 import { Box } from '@mui/system';
 
 function Application(props) {
@@ -55,29 +55,57 @@ function Application(props) {
   return (
     <div>
       <Header user={name} id={id} />
-      <Stack spacing={2}
-        justifyContent="flex-start"
-        alignItems="center">
-        <Typography variant='h3'>{post.title}</Typography>
-        <Typography variant='h5'>{post.description}</Typography>
-      
-      <form className="Form" onSubmit={onSubmit}>
-        <Stack spacing={2}
-          justifyContent="flex-start"
-          alignItems="center"
+      <Grid container
+        spacing={2} 
+        justifyContent="center"
+        alignItems="flex-start">
+        <Grid item xs={0} md={3} xl={4}/>
+        <Grid item
+        xs={12}
+        md={6}
+        xl={4}
+        justifyContent="center"
+        >
+          <Typography variant='h3' textAlign="center">{post.title}</Typography>
+        </Grid>
+        <Grid item xs={0} md={3} xl={4}/>
+        <Grid item xs={0} md={3} xl={4}/>
+        <Grid item
+        xs={12}
+        md={6}
+        xl={4}
+        justifyContent="center"
+        >
+          <Typography variant='h5' textAlign="center">{post.description}</Typography>
+        </Grid>
+        <Grid item xs={0} md={3} xl={4}/>
+        <Grid item xs={0} md={3} xl={4}/>
+        <Grid item
+          xs={12}
+          md={6}
+          xl={4}
+          justifyContent="center"
           >
-          {post.group.questions.map((q, i) => {
-            return (
-              <Box sx={{ '& > :not(style)': { m: 1, width: '50ch' } }}>
-                <Typography variant='h6'>{q}</Typography>
-                <TextField label="Answer" required="true" variant="outlined" onChange={(e) => {onChange(i, e)}}/>
-              </Box>  
-            )
-          })}
-          <Button variant="contained" type="submit">Submit</Button>
-        </Stack>
-      </form>
-      </Stack>
+          <form className="Form" onSubmit={onSubmit}>
+            {post.group.questions.map((q, i) => {
+              return (
+                <Box sx={{ '& > :not(style)': { m: 1, width: "stretch"} }}>
+                  <Typography variant='h6'>{q}</Typography>
+                  <TextField 
+                    width="inherit"
+                    label="Answer" 
+                    required="true" 
+                    variant="outlined" 
+                    multiline
+                    onChange={(e) => {onChange(i, e)}}/>
+                </Box>  
+              )
+            })}
+            <Button variant="contained" type="submit" sx={{m : 1}}>Submit</Button>
+        </form>
+      </Grid>
+      <Grid item xs={0} md={3} xl={4}/>
+      </Grid>
     </div>
   );
 }

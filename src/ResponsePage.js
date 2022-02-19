@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Api from './Api';
 import Loading from './components/Loading';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Button, Typography, Grid } from '@mui/material';
 
 function ResponsePage(props) {
 
@@ -78,29 +79,76 @@ function ResponsePage(props) {
   }
   
   return (
-    <div>
+    <div className="responsePage">
       <Header user={name} id={id} />
-      {post.title}
-      {post.description}
+      <Grid container
+        spacing={1} 
+        justifyContent="center"
+        alignItems="flex-start">
+      <Grid item xs={0} md={3} xl={4}/>
+      <Grid item
+        xs={12}
+        md={6}
+        xl={4}
+        justifyContent="center"
+        >
+        <Typography align='center' variant='h3'>{post.title}</Typography>
+      </Grid>
+      <Grid item xs={0} md={3} xl={4}/>
+      <Grid item xs={0} md={3} xl={4}/>
+      <Grid item
+        xs={12}
+        md={6}
+        xl={4}
+        justifyContent="center"
+        >
+      <Typography align='center' variant='h5'>{post.description}</Typography>
+      </Grid>
+      <Grid item xs={0} md={3} xl={4}/>
       {post.group.requests.map((re) => {
         return (
-          <div>
+          <Grid item container spacing={1}>
+          <Grid item xs={0} md={3} xl={4}/>
             {re.responses.map((r, i) => {
-              return(<div>
-                {post.group.questions[i]} <br/>
-                {r}
-                </div>)
+              return(<Grid item container>
+                <Grid item xs={0} md={3} xl={4}/>
+                <Grid item
+                xs={12}
+                md={6}
+                xl={4}
+                justifyContent="center"
+                >
+                  <Typography>{post.group.questions[i]}</Typography>
+                </Grid>
+                <Grid item xs={0} md={3} xl={4}/>
+                <Grid item xs={0} md={3} xl={4}/>
+                <Grid item
+                xs={12}
+                md={6}
+                xl={4}
+                justifyContent="center"
+                >
+                  <Typography variant='body2'>{r}</Typography>
+                </Grid>
+                <Grid item xs={0} md={3} xl={4}/>
+                </Grid>)
             })}
-            {re.approval !== "pending" ? <div>{re.approval == "true" ? "approved" : "rejected"}
-                                            <button onClick={onUndo} data-resid={re._id}>Undo</button>
-                                         </div> : <div data-resid={re._id}>
-              <button onClick={onApprove} data-resid={re._id}>Accept</button><button data-resid={re._id} onClick={onReject}>Reject</button>
-              </div>}
-
-          </div>
+            {re.approval !== "pending" ?
+              <Grid container justifyContent="center">
+                <Typography variant='button' color="secondary.dark" alignSelf="center">
+                  {re.approval == "true" ? "approved" : "rejected"}
+                </Typography>
+                <Button onClick={onUndo} data-resid={re._id}>Undo</Button>
+              </Grid> : 
+              <Grid container data-resid={re._id} justifyContent="center">
+                <Button onClick={onApprove} data-resid={re._id}>Accept</Button><Button data-resid={re._id} onClick={onReject}>Reject</Button>
+              </Grid>}
+          <Grid item xs={0} md={3} xl={4}/>
+          </Grid>
         )
       })}
-      <button onClick={onSubmit}>Close application</button>
+      <Button onClick={onSubmit}>Close application</Button>
+      </Grid>
     </div>
   );
 }
