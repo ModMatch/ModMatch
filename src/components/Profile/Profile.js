@@ -4,7 +4,7 @@ import ProfileEditForm from './ProfileEditForm';
 import ProfileHeader from './ProfileHeader';
 import Api from '../../Api';
 import { useNavigate } from 'react-router-dom';
-import { Typography, Button, Box } from '@mui/material';
+import { Typography, Button, Grid } from '@mui/material';
 
 function Profile(props) {
 
@@ -86,25 +86,13 @@ function Profile(props) {
     }
   }
   return (
-    <Box sx={{
-      display: 'grid',
-      flexwrap: 'wrap',
-      justifyContent: 'center',
-      bgcolor: 'background.paper',
-      m: 1,
-      borderRadius: 1
-    }}>
-      <Box sx={{
-      display: 'flex',
-      flexwrap: 'wrap',
-      justifyContent: 'center',
-      alignItems: 'center',
-      bgcolor: 'background.paper',
-      m: 1,
-      borderRadius: 1,
-      flexDirection: 'column'
-      }}>
-        <Typography color="secondary.dark" id="editProfileErrors">
+    <Grid container
+      spacing={2}
+      justifyContent="flex-start"
+      alignItems="center">
+      <Grid item xs={0} md={2} xl={3}/>
+      <Grid item xs={12} md={8} xl={6} >
+        <Typography color="secondary.dark" id="editProfileErrors" align="center">
           {errors.map((e)=>{
             return <div>{e.msg}</div>
           })}
@@ -112,54 +100,40 @@ function Profile(props) {
         {isEdit ? <ProfileEditForm onOldPasswordChange={onOldPasswordChange} onGivenNameChange={onGivenNameChange} onOrderChange={onOrderChange}
         onPasswordChange={onPasswordChange} onPassword2Change={onPassword2Change} onSurnameChange={onSurnameChange}
         onSubmit={onSubmit} resetPassword={resetPassword} currValues={props.user}/> : <ProfileHeader name={props.user.name}/>}
-      </Box>
-
-      <Box sx={{
-      display: 'flex',
-      flexwrap: 'wrap',
-      justifyContent: 'center',
-      bgcolor: 'background.paper',
-      m: 1,
-      borderRadius: 1
-      }}>
+      </Grid>
+      <Grid item xs={0} md={2} xl={3}/>
+      <Grid item xs={0} md={2} xl={3}/>
+      <Grid item xs={12} md={8} xl={6} sx={{textAlign: "center"}}>
         {(props.user._id === props.currid && !isEdit) ? 
         <Button 
           variant="contained" 
           onClick={editProfile}
           id='editProfileButton'
+          align="center"
           >Edit
         </Button>
         : null}
-      </Box>
-      <Box sx={{
-      display: 'flex',
-      flexwrap: 'wrap',
-      justifyContent: 'center',
-      bgcolor: 'background.paper',
-      m: 1,
-      borderRadius: 1
-      }}>
+      </Grid>
+      <Grid item xs={0} md={2} xl={3}/>
+      <Grid item xs={0} md={2} xl={3}/>
+      <Grid item xs={12} md={8} xl={6}>
       <Typography variant="h4" color="primary" align='center'>
         Posts
       </Typography>
-      </Box>
-      <Box sx={{
-      display: 'grid',
-      justifyContent: 'center',
-      bgcolor: 'background.paper',
-      m: 1,
-      borderRadius: 1,
-      width: "50rem"
-      }}>
+      </Grid>
+      <Grid item xs={0} md={2} xl={3}/>
         {props.posts.map(obj=>{
           return (
-            <Box sx={{width: "50rem"}}>
-              <Post key={obj._id} id={obj._id} title={obj.title} desc={obj.description} posturl={obj.url}
-              user={obj.author.name} date={obj.formatted_date} tag={obj.tag} authorurl={obj.author.url}/>
-            </Box>)
+            <Grid item container>
+              <Grid item xs={0} md={2} xl={3}/>
+              <Grid item xs={12} md={8} xl={6}>
+                <Post key={obj._id} id={obj._id} title={obj.title} desc={obj.description} posturl={obj.url}
+                user={obj.author.name} date={obj.formatted_date} tag={obj.tag} authorurl={obj.author.url}/>
+              </Grid>
+              <Grid item xs={0} md={2} xl={3}/>
+            </Grid>)
         })}
-      </Box>
-    </Box>
+    </Grid>
   );
   
 }

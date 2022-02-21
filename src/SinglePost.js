@@ -7,6 +7,7 @@ import PostForm from './components/Post/PostForm';
 import CommentForm from './components/Comment/CommentForm';
 import Comment from './components/Comment/Comment';
 import Api from './Api';
+import PostError from './components/PostError';
 import { Button, Box, LinearProgress, Typography, Grid } from '@mui/material';
 import Loading from './components/Loading';
 
@@ -219,7 +220,7 @@ function SinglePost(props) {
   </Box>);
 
   if (!isExist) {
-    return <div>error post does not exist</div>
+    return <PostError/>
   } else if (loading) {
     return <Loading/>
   } 
